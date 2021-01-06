@@ -1,0 +1,21 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> $navigation &raquo; {lang warn_view_log}</div>
+
+<div class="mainbox">
+	<h1>{lang warn_view_log}</h1>
+	<table summary="{lang warn_view_log}" cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<td class="user">{lang thread_moderations_username}</td>
+				<td class="time">{lang time}</td>
+				<td>{lang reason}</td>
+			</tr>
+		</thead>
+		<tr>
+			<td class="user"><a href="space.php?uid=$warning[operatorid]">$warning[operator]</a></td>
+			<td class="time">$warning[dateline]</td>
+			<td>$warning[reason]</td>
+		</tr>
+	</table>
+</div>
+{subtemplate footer}

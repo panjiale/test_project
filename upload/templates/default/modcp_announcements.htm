@@ -1,0 +1,69 @@
+		<!--{if $op=='add' || $op == 'edit'}-->
+			<div class="mainbox">
+			<script type="text/javascript" src="include/javascript/calendar.js"></script>
+			{if $op == 'add'}<h3>{lang mod_announce_add}</h3>{else}<h3>{lang mod_announce_edit}</h3>{/if}
+			<form method="post" action="{$cpscript}?action=announcements&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="id" value="$announce[id]">
+			<input type="hidden" name="displayorder" value="$announce[displayorder]">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<th width="20%">{lang title}</th><td><input type="text" name="subject" value="$announce[subject]" size="80"></td>
+				</tr>
+				<tr>
+					<th>{lang starttime}</th><td><input type="text" name="starttime" value="$announce[starttime]" onclick="showcalendar(event, this)"></td>
+				</tr>
+				<tr>
+					<th>{lang endtime}</th><td><input type="text" name="endtime" value="$announce[endtime]" onclick="showcalendar(event, this)"></td>
+				</tr>
+				<tr>
+					<th>{lang mod_announce_type}</th><td><input type="radio" name="type" value="0" $announce[checked][0]> {lang mod_announce_type_text} <input type="radio" name="type" value="1" $announce[checked][1]> {lang mod_announce_type_url}</td>
+				</tr>
+				<tr>
+					<th>{lang content}</th><td><textarea name="message" rows="10" cols="80">$announce[message]</textarea></td>
+				</tr>
+				<tr>
+					<th></th><td><button type="submit" class="submit" name="submit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+			</form>
+			</div>
+		<!--{/if}-->
+
+		<!--{if $op == 'list'}-->
+			<div class="mainbox">
+			<h3>{lang mod_announce_list}</h3>
+			<form method="post" action="{$cpscript}?action=announcements&op=manage">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<table cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th width="8%"><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" />{lang delete}</th><th width="5%">{lang displayorder}</th><th width="15%">{lang author}</th><th>{lang title}</th><th width="10%">{lang mod_announce_type}</th><th width="10%">{lang starttime}</th><th width="10%">{lang endtime}</th><th width="5%">{lang action}</th>
+					</tr>
+				</thead>
+				<!--{loop $annlist $ann}-->
+					<tr $ann['disabled']>
+					<td><input type="checkbox" name="delete[]" value="$ann[id]" $ann['disabled']></td>
+					<td><input type="text" name="order[{$ann[id]}]" value="$ann[displayorder]" size="3" $ann['disabled']></td>
+					<td>$ann[author]</td>
+					<td>$ann[subject]</td>
+					<td>{if $ann[type] == 1}{lang link}{else}{lang text}{/if}</td>
+					<td>$ann[starttime]</td>
+					<td>$ann[endtime]</td>
+					<td><a href="$cpscript?action=announcements&op=edit&id=$ann[id]">{lang edit}</a></td>
+					</tr>
+				<!--{/loop}-->
+				<tr>
+					<td colspan="8" align="center"><button type="submit" class="submit" name="submit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+			</form>
+			</div>
+			<!--{if !empty($delids)}-->
+				<div class="notice">{lang mod_message_announce_del}</div>
+			<!--{elseif !empty($updateorder)}-->
+				<div class="notice">{lang mod_message_announce_edit}</div>
+			<!--{elseif $add_successed}-->
+				<div class="notice">{lang mod_message_announce_add}</div>
+			<!--{/if}-->
+		<!--{/if}-->

@@ -1,0 +1,30 @@
+{template header}
+<div class="smileytabs">
+<ul id="smileytypes" class="tabs">
+	<!--{loop $_DCACHE['smileytypes'] $typeid $type}-->
+		<li{if $stypeid == $typeid} class="current"{/if}><a href="#$typeid" onclick="ajaxget('post.php?action=smilies&stypeid=$typeid&inajax=1&scrollt=' + $('smileytypes').scrollTop, 'smilieslist', null, null, null, '$(\'smileytypes\').scrollTop=' + $('smileytypes').scrollTop)">$type[name]</a></li>
+	<!--{/loop}-->
+</ul>
+	<span><img id="" alt="{lang post_smilies_scrollup}" title="{lang post_smilies_scrollup}" src="images/common/smilie_contract.gif" onclick="smiletypescroll(0)" /><img id="" alt="{lang post_smilies_scrolldown}" title="{lang post_smilies_scrolldown}" src="images/common/smilie_expand.gif" onclick="smiletypescroll(1)" /></span>
+</div>
+<table summary="smilies" cellpadding="0" cellspacing="0" style="clear: both;">
+<tr align="center">
+<!--{eval $i=0;}-->
+<!--{loop $smilies $key $smiley}-->
+        <!--{if $i >= $smcols * $smrows}--><!--{eval break;}--><!--{/if}-->
+        <!--{if !($i % $smcols)}--><!--{if $i}--></tr><!--{/if}--><tr height="<!--{echo ($smthumb + 6);}-->"><!--{/if}-->
+        <td align="center" id="smilie_{$key}_parent" onMouseover="smileyMenu(this)" onClick="insertSmiley($key)"><img src="images/smilies/$_DCACHE[smileytypes][$_DCACHE[smilies][typearray][$key]][directory]/$smiley[url]" id="smilie_$key" alt="$smiley[code]" title="$smiley['lw']" width="$smiley['w']" height="$smiley['h']" border="0" /></td>
+        <!--{eval $i++;}-->
+<!--{/loop}-->
+</tr>
+<!--{if ceil($i/$smcols) < $smrows}--><!--{echo str_repeat('<tr height="'.($smthumb + 6).'"><td colspan="'.$smrows.'"></td></tr>', $smrows - ceil($i/$smcols));}--><!--{/if}-->
+</table>
+$multipage
+
+<!--{if !empty($scrollt)}-->
+<script type="text/javascript">
+$('smileytypes').scrollTop = $scrollt;
+</script>
+<!--{/if}-->
+
+{template footer}

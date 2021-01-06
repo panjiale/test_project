@@ -1,0 +1,81 @@
+<link rel="stylesheet" type="text/css" href="forumdata/cache/style_{STYLEID}_viewthread.css" />
+
+<div class="mainbox">
+	<h3>{lang mod_moderate_range}</h3>
+	<form method="post" action="{$cpscript}?action=$action&op=$op">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<table cellspacing="0" cellpadding="0">
+	<!--{if $modforums['fids']}-->
+		<tr>
+			<td width="40%">{lang mod_moderate_selectforum}: </td>
+			<td width="60%">
+				<select name="fid">
+					<option value=""></option>
+					<!--{loop $modforums[list] $id $name}-->
+					<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+					<!--{/loop}-->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>{lang mod_moderate_thread_range}: </td>
+			<td width="40%">
+				<input type="radio" name="filter" value="0" $filtercheck[0]> {if $op == 'replies'}{lang mod_moderate_reply_num}{else}{lang mod_moderate_thread_num}{/if} <input type="radio" name="filter" value="-3" $filtercheck[-3]> {if $op == 'replies'}{lang mod_moderate_ignorereply_num}{else}{lang mod_moderate_ignorethread_num}{/if}
+			</td>
+		</tr>
+		<tr>
+			<td></td><td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+		</tr>
+	<!--{else}-->
+		<tr>
+		<th width="20%">{lang forum}</th>
+		<td colspan="2">{lang mod_message_moderate_nopermission}</td>
+		</tr>
+	<!--{/if}-->
+	</table>
+	</form>
+</div>
+
+<!--{if $updatestat}-->
+	<div class="notice">{lang mod_notice_moderate}</div>
+<!--{/if}-->
+
+<!--{if $fid && $postlist}-->
+	<form method="post" action="{$cpscript}?action=$action&op=$op">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="fid" value="$fid">
+	<input type="hidden" name="filter" value="$filter">
+	<!--{loop $postlist $post}-->
+		<div class="box">
+			<span class="headactions">$post[author]  {lang poston} $post[dateline]</span>
+			<h4><a href="forumdisplay.php?fid=$fid" target="_blank">$forum[name]</a> &raquo;
+				<a href="viewthread.php?tid=$post[tid]" target="_blank">$post[tsubject]</a> <!--{if $post[subject]}-->&raquo; $post[subject]<!--{/if}-->
+			</h4>
+
+			<table cellspacing="0" cellpadding="4">
+			<tr><td>
+				<div style="overflow: auto; overflow-x: hidden; height:120px; word-break: break-all; width: 100%">$post[message] $post[attach]</div>
+			</td><tr>
+			</table>
+
+			<div class="footoperation" style="border: 0;">
+				<b>{lang reason}: </b><input type="text" name="pm_{$post[id]}" value="" size="80">&nbsp;&nbsp;&nbsp; &nbsp;
+				<b>{lang action}: </b><input class="radio" type="radio" name="mod[{$post[id]}]" value="validate" id="mod_{$post[id]}_1" checked>{lang pass}
+					<input class="radio" type="radio" name="mod[{$post[id]}]" value="delete" id="mod_{$post[id]}_2">{lang delete}
+					<input class="radio" type="radio" name="mod[{$post[id]}]" value="ignore" id="mod_{$post[id]}_3">{lang ignore}
+
+			</div>
+		</div>
+	{/loop}
+
+	<center><button type="submit" class="submit" name="modsubmit">{lang mod_moderate_submit}</button></center>
+	</form>
+	<!--{if !empty($reportlist[pagelink])}--><div class="pages_btns">$reportlist[pagelink]</div><!--{/if}-->
+
+<!--{elseif $fid}-->
+	<div class="box"><h4>{lang search_nomatch}</h4>
+	</div>
+<!--{/if}-->
+
+<br />
+<br />

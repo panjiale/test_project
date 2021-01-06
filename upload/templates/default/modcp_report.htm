@@ -1,0 +1,77 @@
+<div class="mainbox">
+	<h3>{lang mod_report_selectforum}</h3>
+	<form method="post" action="{$cpscript}?action=$action&op=$op">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<table cellspacing="0" cellpadding="0">
+	<!--{if $modforums['fids']}-->
+		<tr>
+		<th width="20%">{lang forum}</th>
+		<td>
+			<select name="fid">
+				<option value=""></option>
+				<!--{loop $modforums[list] $id $name}-->
+				<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+				<!--{/loop}-->
+			</select>
+		</td>
+		<td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+		</tr>
+	<!--{else}-->
+		<tr>
+		<th width="20%">{lang forum}</th>
+		<td colspan="2">{lang mod_message_moderate_nopermission}</td>
+		</tr>
+	<!--{/if}-->
+</table></form></div>
+
+<!--{if !empty($reportlist)}-->
+	<style type="text/css">
+	.new_report td{font-weight: bold};
+	</style>
+	<form method="post" action="{$cpscript}?action=$action">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="op" value="" id="operation" />
+	<input type="hidden" name="page" value="$page" />
+	<input type="hidden" name="fid" value="$fid" />
+	<div class="mainbox">
+		<h1>{lang mod_option_subject_report}</h1>
+		<table summary="" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td class="selector"><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" /></td>
+					<th width="10%">{lang reportpost_type}</th>
+					<td class="user" width="10%">{lang reporter}</td>
+					<th width="30%">{lang reason}</th>
+					<th width="30%">{lang content}</th>
+					<td class="time" width="10%">{lang time}</td>
+				</tr>
+			</thead>
+			<!--{if $reportlist[data]}-->
+				<!--{loop $reportlist[data] $report}-->
+					<tr <!--{if $report[status]}-->class="new_report"<!--{/if}-->>
+					<td class="selector"><input type="checkbox" name="ids[]" value="$report[id]" /></td>
+					<td>[<!--{if $report[type]}-->{lang reportpost_recommend}<!--{else}-->{lang reportpost_delate}<!--{/if}-->]</td>
+					<td>$report[username]</td>
+					<td>$report[reason]</td>
+					<td>{lang author}: $report['author']<br />
+					{lang content}: <a href="redirect.php?goto=findpost&pid=$report[pid]&ptid=$report[tid]" target="_blank" title="$report[message]">$report[subject]</a> ...
+					</td>
+					<td class="time">$report[dateline]</td>
+					</tr>
+				<!--{/loop}-->
+				</table>
+				<div class="footoperation" align="center">
+					<button type="submit" name="deletesubmit" value="yes" class="button" onclick="$('operation').value='delete'">{lang delete}</button> &nbsp; <button type="submit" name="marksubmit" value="yes" onclick="$('operation').value='mark'">{lang mod_report_mark}</button>
+				</div>
+			<!--{else}-->
+					<tr><td colspan="6">{lang search_nomatch}</td></tr>
+				</table>
+			<!--{/if}-->
+	</div>
+	</form>
+	<!--{if !empty($reportlist[pagelink])}--><div class="pages_btns">$reportlist[pagelink]</div><!--{/if}-->
+<!--{/if}-->
+
+<!--{if !empty($logids)}-->
+<div class="notice">{if $op == 'delete'}{lang mod_message_report_del}{else}{lang mod_message_report_mark}{/if}</div>
+<!--{/if}-->

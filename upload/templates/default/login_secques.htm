@@ -1,0 +1,53 @@
+{subtemplate header}
+<div id="nav">
+<a href="$indexname">$bbname</a> &raquo; {lang member_login}
+</div>
+
+<form method="post" action="logging.php?action=login">
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="referer" value="$referer" />
+<input type="hidden" name="loginauth" value="$loginauth" />
+<input type="hidden" name="loginmode" value="$loginmode" />
+<input type="hidden" name="styleid" value="$styleid" />
+<input type="hidden" name="cookietime" value="$cookietime" />
+<div class="mainbox formbox">
+<h1>{lang member_login}</h1>
+<!--{if $member['discuz_secques'] && empty($secques)}-->
+	<ins class="logininfo">{lang login_secques}</ins>
+<!--{/if}-->
+<table summary="{lang member_login}" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<th>{lang username}</th>
+<td><input type="text" size="25" value="$username" disabled /></td>
+</tr>
+{subtemplate seccheck}
+<!--{if $discuz_secques}-->
+	<tr>
+	<th>{lang security_question}</th>
+	<td><select name="questionid" tabindex="3">
+	<option value="0">{lang security_question_0}</option>
+	<option value="1">{lang security_question_1}</option>
+	<option value="2">{lang security_question_2}</option>
+	<option value="3">{lang security_question_3}</option>
+	<option value="4">{lang security_question_4}</option>
+	<option value="5">{lang security_question_5}</option>
+	<option value="6">{lang security_question_6}</option>
+	<option value="7">{lang security_question_7}</option>
+	</select></td>
+	</tr>
+	<tr>
+	<th>{lang security_answer}</th>
+	<td><input type="text" name="answer" size="25" tabindex="4" /></td>
+	</tr>
+<!--{/if}-->
+<tr>
+<th>&nbsp;</th>
+<td>
+<button type="submit" class="submit" name="loginsubmit" value="true">{lang member_login}</button>
+</td>
+</tr>
+</tbody>
+</table></div>
+</form>
+{subtemplate footer}

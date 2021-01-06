@@ -1,0 +1,109 @@
+<!--{if $modforums['fids']}-->
+	<div class="mainbox">
+		<h3>{lang mod_forum_select}</h3>
+		<form method="post" action="{$cpscript}">
+		<input type="hidden" name="action" value="$action" />
+		<input type="hidden" name="op" value="$op" />
+		<table cellspacing="0" cellpadding="0">
+			<tr>
+			<th width="20%">{lang forum}</th>
+			<td>
+				<select name="fid">
+					<option value=""></option>
+					<!--{loop $modforums[list] $id $name}-->
+					<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+					<!--{/loop}-->
+				</select>
+			</td>
+			<td><button type="submit" class="submit" name="chooseforumsubmit" value="true">{lang submit}</button></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+<!--{else}-->
+	<div class="mainbox">
+		<h3>{lang mod_option_error}</h3>
+		<table cellspacing="0" cellpadding="0">
+			<tr><td>{lang mod_message_forum_nopermission}</td></tr>
+		</table>
+	</div>
+<!--{/if}-->
+
+<!--{if $fid && $forum['ismoderator']}-->
+
+	<!--{if $op == 'editforum'}-->
+		<div class="mainbox">
+			<h3>{lang mod_option_forum_edit} - $forum[name]</h3>
+			<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="fid" value="$fid">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<th width="20%">{lang forum_name}</th><td>$forum[name] [<a href="forumdisplay.php?fid=$fid" target="_blank">{lang views}</a>]</td>
+				</tr>
+				<tr>
+				<tr>
+					<th width="20%">{lang forum_description}</th><td><textarea name="descnew" rows="4" cols="80">$forum['description']</textarea></td>
+				</tr>
+				<tr>
+					<th width="20%">{lang forum_rules}</th><td><textarea name="rulesnew" rows="4" cols="80" {if !$alloweditrules}disabled readonly{/if}>$forum['rules']</textarea></td>
+				</tr>
+				<tr>
+					<th></th><td><button type="submit" class="submit" name="editsubmit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+		<!--{if $forumupdate}-->
+			<div class="notice">{lang mod_message_forum_update}</div>
+		<!--{/if}-->
+
+	<!--{elseif $op == 'recommend'}-->
+		<div class="mainbox">
+		<h3>{lang mod_option_forum_recommend} - $forum[name]</h3>
+		<table cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td width="10%"><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" />{lang delete}</td>
+					<th width="10%">{lang displayorder}</th>
+					<th>{lang subject}</th>
+					<th class="user" width="15%">{lang author}</th>
+					<th class="user" width="15%">{lang moderator}</th>
+					<td class="time" width="10%">{lang mod_forum_recommend_expiration}</td>
+				</tr>
+			</thead>
+			<!--{if $threadlist}-->
+				<form method="post" action="{$cpscript}?action=$action">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="op" value="$op" />
+				<input type="hidden" name="page" value="$page" />
+				<input type="hidden" name="fid" value="$fid" />
+				<!--{loop $threadlist $thread}-->
+					<tr>
+					<td class="selector"><input type="checkbox" name="delete[]" value="$thread[tid]" /></td>
+					<td><input type="text" size="3" name="ordernew[{$thread[tid]}]" value="$thread[displayorder]"></td>
+					<td><a href="viewthread.php?tid=$thread[tid]" target="_blank">$thread[subject]</a></td>
+					<td>$thread[author]</td>
+					<td>$thread[moderator]</td>
+					<td class="time">$thread[expiration]</td>
+					</tr>
+				<!--{/loop}-->
+				</table>
+				<div class="footoperation" align="center">
+					<button type="submit" name="editsubmit" value="yes" class="button">{lang mod_forum_recommend_list}</button>
+				</div>
+			<!--{else}-->
+					<tr><td colspan="6">{lang search_nomatch}</td></tr>
+				</table>
+
+			<!--{/if}-->
+		</div>
+		</form>
+		<!--{if !empty($reportlist[pagelink])}--><div class="pages_btns">$reportlist[pagelink]</div><!--{/if}-->
+		<!--{if $listupdate}-->
+			<div class="notice">{lang mod_message_forum_updaterecommend}</div>
+		<!--{/if}-->
+
+	<!--{/if}-->
+
+<!--{/if}-->

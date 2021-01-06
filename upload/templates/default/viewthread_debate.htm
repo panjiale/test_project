@@ -1,0 +1,185 @@
+{subtemplate viewthread_special_header}
+
+<h6>{lang debate_subject}</h6>
+
+<!--{if $lastmod['modaction'] || $thread['readperm'] || $thread[itemid] || $lastmod['magicname']}-->
+	<ins>
+	<!--{if $lastmod['modaction']}-->&nbsp; <a href="misc.php?action=viewthreadmod&amp;tid=$tid" title="{lang thread_mod}" target="_blank">{lang thread_mod_by}</a>&nbsp;<!--{/if}-->
+	<!--{if $thread['readperm']}-->&nbsp; {lang readperm_thread} $thread[readperm] &nbsp;<!--{/if}-->
+	<!--{if $lastmod['magicname']}-->&nbsp; <a href="misc.php?action=viewthreadmod&amp;tid=$tid" title="{lang thread_mod}" target="_blank">{lang magics_logs}</a>&nbsp;<!--{/if}-->
+	</ins>
+<!--{/if}-->
+<table summary="{lang debate_subject}" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="postcontent">
+			<!--{if $debate[dbendtime] && $debate[dbendtime] < $timestamp}-->
+			<label>
+				{lang debate_end}
+				<!--{if $debate[winner]}-->
+					<strong>
+						<!--{if $debate[winner] == 1}-->
+						{lang debate_square}{lang debate_winner}
+						<!--{elseif $debate[winner] == 2}-->
+						{lang debate_opponent}{lang debate_winner}
+						<!--{else}-->
+						{lang debate_draw}
+						<!--{/if}-->
+					</strong>
+				<!--{/if}-->
+			</label>
+			<!--{/if}-->
+			<h1>$thread[subject]</h1>
+			<div class="postmessage">
+				<!--{if !empty($post[ratings])}--><span class="postratings"><a href="misc.php?action=viewratings&amp;tid=$tid&amp;pid=$post[pid]" title="{lang rate} $post[rate]">$post[ratings]</a></span><!--{/if}-->
+				<div id="postmessage_$post[pid]">$post[message]</div>
+
+				<!--{if $post['attachment']}-->
+					<div class="notice postattach">{lang attachment}: <em>{lang attach_nopermission}</em></div>
+				<!--{elseif $hideattach[$post[pid]] && $post['attachments']}-->
+					<div class="notice postattach">{lang attachment}: <em>{lang attachment_reply_show}</em></div>
+				<!--{elseif $postlist[$pid]['attachlist']}-->
+					<div class="box postattachlist">
+						<h4>{lang attachment}</h4>
+						{$postlist[$pid][attachlist]}
+					</div>
+				<!--{/if}-->
+
+				<div class="box debatepoints">
+					<table summary="{lang debate_all_point}" cellspacing="0" cellpadding="0">
+						<tr class="message">
+							<td class="stand1">
+								<h2>{lang debate_square_point}</h2>
+								<p>$debate[affirmpoint]</p></td>
+							<td style="width: 10px"></td>
+							<td class="stand2">
+								<h2>{lang debate_opponent_point}</h2>
+								<p>$debate[negapoint]</p></td>
+						</tr>
+						<tr class="button">
+							<td class="stand1"><a href="misc.php?action=debatevote&tid=$tid&stand=1" id="affirmbutton" onclick="ajaxmenu(event, this.id)">{lang debate_support_square}</a></td>
+							<td style="width: 10px"></td>
+							<td class="stand2"><a href="misc.php?action=debatevote&tid=$tid&stand=2" id="negabutton" onclick="ajaxmenu(event, this.id)">{lang debate_support_opponent}</a></td>
+						</tr>
+					</table>
+				</div>
+				<div class="box pollpanel">
+					<h4>{lang debate_situation}</h4>
+					<table summary="{lang debate_situation}" cellspacing="0" cellpadding="0">
+						<tr>
+							<td style="width: 100px;">
+								{lang debate_square} $debate[affirmdebaters] {lang debate_debaters}
+							</td>
+							<td>
+								<div class="optionbar" style="width: $debate[affirmvoteswidth]%;">
+									<div>&nbsp;</div>
+								</div>
+								<p>$debate[affirmvotes] {lang debate_poll}</p></td>
+						</tr>
+						<tr>
+							<td style="border-bottom: none;">
+								{lang debate_opponent} $debate[negadebaters] {lang debate_debaters}
+							</td>
+							<td style="border-bottom: none;">
+								<div class="optionbar" style="width:$debate[negavoteswidth]%;">
+									<div>&nbsp;</div>
+								</div>
+								<p>$debate[negavotes] {lang debate_poll}</p></td>
+						</tr>
+					</table>
+
+					<!--{if $debate[umpire] && $discuz_user && $debate[umpire] == $discuz_user}-->
+						<!--{if $debate[remaintime] && !$debate[umpirepoint]}-->
+							<button type="button" onclick="location.href='misc.php?action=debateumpire&tid=$tid'">{lang debate_umpire_end}
+						<!--{elseif $timestamp - $debate['dbendtime'] < 3600}-->
+							<button type="button" onclick="location.href='misc.php?action=debateumpire&tid=$tid'">{lang debate_umpirepoint_edit}
+						<!--{/if}-->
+					<!--{/if}-->
+
+				</div>
+				
+				<!--{if $thread['tags'] || $relatedkeywords}-->
+					<p class="posttags">{lang thread_keywords}
+					<!--{if $thread['tags']}-->$thread[tags]<!--{/if}-->
+					<!--{if $relatedkeywords}--><span class="postkeywords">$relatedkeywords</span><!--{/if}-->
+					</p>
+				<!--{/if}-->
+
+				<!--{if $relatedtagstatus}-->
+					<script type="text/javascript" src="tag.php?action=relatetag&rtid=$tid"></script>
+				<!--{/if}-->
+
+			</div>
+		</td>
+		<td class="postauthor">
+			$post[avatar]
+
+			<dl>
+				<dt>{lang special_author}</dt><dd><a href="space.php?username=$post[author]" target="_blank">$post[author]</a></dd>
+				<dt>$post[authortitle]</dt><dd>&nbsp;</dd>
+				<dt>{eval showstars($post['stars']);}</dt><dd>&nbsp;</dd>
+				<!--{if $debate[umpire]}-->
+					<dt>{lang debate_umpire}</dt><dd><a href="space.php?username=$debate[umpireurl]">$debate[umpire]</a></dd>
+				<!--{/if}-->
+				<!--{if $debate[bestdebater]}-->
+					<dt>{lang debate_bestdebater}</dt><dd><a href="space.php?username=$debate[bestdebaterurl]">$debate[bestdebater]</a> <!--{if $debate[winner] == 1}-->({lang debate_square}<!--{else}-->({lang debate_opponent}<!--{/if}-->, $debate[affirmvotes]{lang debate_poll})</dd>
+				<!--{/if}-->
+				<dt>{lang debate_starttime}</dt><dd>$debate[starttime]</dd>
+			</dl>
+		<!--{if $post['msn'] || $post['qq'] || $post['icq'] || $post['yahoo'] || $post['taobao']}-->
+		<p class="imicons">
+			<!--{if $post['msn']}--><a href="javascript:;" onclick="msnoperate('add', '$post[msn]')" title="{lang msn_add}"><img src="{IMGDIR}/msnadd.gif" alt="{lang msn_add}" /></a>
+				<a href="javascript:;" onclick="msnoperate('chat', '$post[msn]')" title="{lang msn_chat}"><img src="{IMGDIR}/msnchat.gif" alt="{lang msn_chat}" /></a><!--{/if}-->
+			<!--{if $post['qq']}--><a href="http://wpa.qq.com/msgrd?V=1&amp;Uin=$post[qq]&amp;Site=$bbname&amp;Menu=yes" target="_blank"><img src="{IMGDIR}/qq.gif" alt="QQ" /></a><!--{/if}-->
+			<!--{if $post['icq']}--><a href="http://wwp.icq.com/scripts/search.dll?to=$post[icq]" target="_blank"><img src="{IMGDIR}/icq.gif" alt="ICQ" /></a><!--{/if}-->
+			<!--{if $post['yahoo']}--><a href="http://edit.yahoo.com/config/send_webmesg?.target=$post[yahoo]&.src=pg" target="_blank"><img src="{IMGDIR}/yahoo.gif" alt="Yahoo!"  /></a><!--{/if}-->
+			<!--{if $post['taobao']}--><script type="text/javascript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$post[taobaoas]')+'&s=2"><img src="{IMGDIR}/taobao.gif" alt="{lang taobao}" /></a>');</script><!--{/if}-->
+		</p>
+		<!--{/if}-->
+			<!--{if $customauthorinfo[3]}--><dl class="profile">{eval @eval('echo "'.$customauthorinfo[3].'";');}</dl><!--{/if}-->			</td>
+	</tr>
+	<tr>
+	  <td class="postcontent">
+			<p class="postactions">
+				<!--{if $forum['ismoderator'] || $thread[authorid] == $discuz_uid && !$debate[umpirepoint]}--><a href="post.php?action=edit&amp;fid=$fid&amp;tid=$tid&amp;pid=$post[pid]&amp;page=$page&amp;extra=$extra">{lang edit}</a>&nbsp;&nbsp;<!--{/if}-->
+				<!--{if $raterange && $post['authorid']}-->&nbsp;<a href="misc.php?action=rate&amp;tid=$tid&amp;pid=$post[pid]&amp;page=$page" id="ajax_rate_$post[pid]" onclick="ajaxmenu(event, this.id, 9000000, '', 0)">{lang rate}</a>&nbsp;&nbsp;<!--{/if}-->
+				<!--{if $discuz_uid && $magicstatus}--><a href="magic.php?action=user&amp;pid=$post[pid]" target="_blank">{lang magics_use}</a><!--{/if}-->
+			</p>		  </td>
+      <td class="postauthor">&nbsp;</td>
+  </tr>
+</table></div>
+$tagscript
+
+<!--{if $admode && empty($insenz['hardadstatus']) && !empty($advlist['interthread']) && $thread['replies']}--><div class="ad_column" id="ad_interthread">$advlist[interthread]</div><!--{else}--><div id="ad_interthread"></div><!--{/if}-->
+
+<div id="ajaxdebateposts"><div id="ajaxdebatepostswait" class=" class="box specialpostcontainer""></div></div>
+
+<script type="text/javascript">ajaxget('viewthread.php?fid=$fid&tid=$tid&do=viewdebatepost&page=$page', 'ajaxdebateposts', 'ajaxdebatepostswait');</script>
+
+<br />
+<!--{if $debate['umpirepoint']}-->
+	<div id="umpirepoint" style="display: none">
+	<div class="specialpost">
+	<p class="postmessage">
+	<b>{lang debate_umpire}:</b> $debate[umpire]<br />
+	<b>{lang debate_comment_dateline}:</b> $debate[endtime]<br />
+	<b>{lang debate_umpirepoint}:</b> <br /><br />
+	$debate[umpirepoint]
+	</p>
+	</div>
+	</div>
+	<script type="text/javascript">
+		function checkumpire(event) {
+			doane(event);
+			$('ajaxspecialposts').innerHTML = $('umpirepoint').innerHTML;
+			$('viewstand1').className = '';
+			$('viewstand2').className = '';
+			$('viewstand0').className = '';
+			$('viewumpire').className = 'current';
+			$('viewall').className = '';
+			if($('multipage'))$('multipage').style.display = 'none';
+			return false;
+		}
+	</script>
+<!--{/if}-->
+
+{subtemplate viewthread_special_footer}

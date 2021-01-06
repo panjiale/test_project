@@ -1,0 +1,162 @@
+	<!--{if $op == 'edit' || $op == 'ban'}-->
+		<div class="mainbox">
+			{if $op == 'edit'}<h3>{lang mod_member_edit} - {lang search}</h3>{else}<h3>{lang mod_member_ban} - {lang search}</h3>{/if}
+			<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<th width="20%">{lang username}</th><td><input type="text" name="username" value="$username" size="20"></td>
+				</tr>
+				<tr>
+					<th width="20%">UID</th><td><input type="text" name="uid" value="$uid" size="20"> [{lang optional}]</td>
+				</tr>
+				<tr>
+					<th></th><td><button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+		<!--{if !empty($erro)}-->
+			<div class="notice">
+				<!--{if $error == 1}-->
+					{lang mod_message_member_search}
+				<!--{elseif $error == 2}-->
+					{lang mod_message_member_nonexistence}
+				<!--{elseif $error == 3}-->
+					{lang mod_message_member_nopermission}
+				<!--{/if}-->
+			</div>
+		<!--{/if}-->
+	<!--{/if}-->
+
+	<!--{if $op == 'edit' && $member}-->
+		<div class="mainbox">
+			<h3>{lang mod_option_member_edit} - $member[username]</h3>
+			<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="username" value="$username">
+			<input type="hidden" name="uid" value="$uid">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<th width="20%">{lang username}</th><td>$member[username]</td>
+				</tr>
+				<tr>
+					<th width="20%">UID</th><td>$member[uid]</td>
+				</tr>
+				<tr>
+					<th width="20%">{lang location}</th><td><input type="text" name="locationnew" value="$member[location]" size="40"></td>
+				</tr>
+				<tr>
+					<th width="20%">{lang bio}</th><td><textarea name="bionew" rows="4" cols="80">$member['bio']</textarea></td>
+				</tr>
+				<tr>
+					<th width="20%">{lang biotrade}</th><td><textarea name="biotradenew" rows="4" cols="80">$member['biotrade']</textarea></td>
+				</tr>
+				<tr>
+					<th width="20%">{lang signature}</th><td><textarea name="signaturenew" rows="4" cols="80">$member[signature]</textarea></td>
+				</tr>
+				<tr>
+					<th></th><td><button type="submit" class="submit" name="editsubmit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	<!--{/if}-->
+
+	<!--{if $op == 'ban' && $member}-->
+		<div class="mainbox">
+			<h3>{lang mod_option_member_ban} - $member[username]</h3>
+			<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="username" value="$username">
+			<input type="hidden" name="uid" value="$uid">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<th width="20%">{lang username}</th><td>$member[username]</td>
+				</tr>
+				<tr>
+					<th width="20%">UID</th><td>$member[uid]</td>
+				</tr>
+				<tr>
+					<th width="20%">{lang modcp_members_status}</th>
+					<td>{if $member[groupid] == 4}{lang modcp_members_status_banpost}{elseif $member[groupid] == 5}{lang modcp_members_status_banvisit}{else}{lang modcp_members_status_normal}{/if} {if $member['banexpiry']}({lang valid_before} $member['banexpiry']){/if}</td>
+				</tr>
+				<tr>
+					<th width="20%">{lang changeto}</th><td>{if $member[groupid] == 4 || $member[grouid] == 5}<input type="radio" name="bannew" value="0" checked> {lang modcp_members_status_normal}{/if} <input type="radio" name="bannew" value="4" {if $member[groupid] != 4 && $member[groupid] != 5}checked{/if}> {lang modcp_members_status_banpost} <input type="radio" name="bannew" value="5"> {lang modcp_members_status_banvisit}</td>
+				</tr>
+				<tr>	<th width="20%">{lang expiry}</th><td>
+						<select name="banexpirynew">
+							<option value=0>{lang expiration_unlimit}</option>
+							<option value=1>{lang one_day}</option>
+							<option value=3>{lang three_days}</option>
+							<option value=5>{lang five_days}</option>
+							<option value=7>{lang seven_days}</option>
+							<option value=14>{lang fourteen_days}</option>
+							<option value=30>{lang one_month}</option>
+							<option value=90>{lang three_months}</option>
+							<option value=180>{lang half_year}</option>
+							<option value=365>{lang one_year}</option>
+							</select> {lang modcp_members_ban_days_comment}</td>
+				</tr>
+				<tr>
+					<th width="20%">{lang reason}</th><td><textarea name="reason" rows="4" cols="80">$member[signature]</textarea></td>
+				</tr>
+				<tr>
+					<th></th><td><button type="submit" class="submit" name="bansubmit" id="submit" value="true">{lang submit}</button></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	<!--{/if}-->
+
+	<!--{if $op == 'ipban'}-->
+		<div class="mainbox">
+			<h3>{lang mod_option_member_ipban} </h3>
+			<form method="post" action="{$cpscript}?action=$action&op=$op">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<table cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th width="8%"><input class="checkbox" type="checkbox" id="chkall" name="chkall" onclick="checkall(this.form)" />{lang delete}</th><th>{lang online_ip}</th><th width="20%">{lang ip_location}</th><th width="10%">{lang modcp_members_ip_addadmin}</th><th width="15%">{lang starttime}</th><th width="15%">{lang endtime}</th>
+					</tr>
+				</thead>
+				<!--{loop $iplist $ip}-->
+				<tr>
+					<td><input type="checkbox" name="delete[]" value="$ip[id]" $ip[disabled]></td>
+					<td>$ip[theip]</td>
+					<td>$ip[location]</td>
+					<td>$ip[admin]</td>
+					<td>$ip[dateline]</td>
+					<td><input type="text" name="expirationnew[{$ip[id]}]" value="$ip[expiration]" size="10" maxlength="10"></td>
+				</tr>
+				<!--{/loop}-->
+				<tr>
+					<td>{lang add_new}</td>
+					<td>
+						<input type="text" name="ip1new" value="$iptoban[0]" size="1" maxlength="3"> .
+						<input type="text" name="ip2new" value="$iptoban[1]" size="1" maxlength="3"> .
+						<input type="text" name="ip3new" value="$iptoban[2]" size="1" maxlength="3"> .
+						<input type="text" name="ip4new" value="$iptoban[3]" size="1" maxlength="3">
+					</td>
+					<td colspan="5">{lang expiry}: <input type="text" name="validitynew" value="30" size="3"> {lang days}</td>
+				</tr>
+				<tr><td align="center" colspan="6"><button type="submit" class="submit" name="ipbansubmit" id="submit" value="true">{lang submit}</button></td></tr>
+			</table>
+			</form>
+		</div>
+		<!--{if $adderror}-->
+			<div class="notice">
+			<!--{if $adderror == 1}-->
+				{lang modcp_members_ip_error_1}
+			<!--{elseif $adderror == 2}-->
+				{lang modcp_members_ip_error_2}
+			<!--{elseif $adderror == 3}-->
+				{lang modcp_members_ip_error_3}
+			<!--{elseif $updatecheck || $deletecheck || $addcheck}-->
+				{lang modcp_members_ip_succed}
+			<!--{else}-->
+				{lang modcp_members_ip_error_4}
+			<!--{/if}-->
+			</div>
+		<!--{/if}-->
+	<!--{/if}-->

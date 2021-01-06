@@ -1,0 +1,53 @@
+<div class="mainbox">
+	<h3>{lang modcp_logs_search}</h3>
+	<form method="get" action="{$cpscript}?action=logs">
+	<input type="hidden" name="action" value="logs">
+	<table cellspacing="0" cellpadding="0">
+		<tr>
+		<td align="center">
+			{lang keyword}: <input type="text" name="keyword" value="$keyword" size="60">
+			&nbsp;&nbsp;&nbsp;&nbsp;{lang modcp_logs_perpage}
+			<input type="text" name="lpp" value="$lpp" size="4">&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="submit" class="submit" name="submit" id="searchsubmit" value="true">{lang submit}</button></td>
+		</tr>
+</table></form></div>
+
+<!--{if !empty($loglist)}-->
+	<div class="mainbox">
+		<h1>{lang modcp_logs_list}</h1>
+		<table summary="" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<th width="15%">{lang time}</th>
+					<th width="15%">{lang username}</th>
+					<th width="10%">{lang modcp_logs_group_name}</th>
+					<td width="10%">IP</td>
+					<th width="10%">{lang modcp_logs_action}</th>
+					<th width="15%">{lang modcp_logs_operation}</th>
+					<td width="15%">{lang forum}</td>
+					<td width="5%">{lang modcp_logs_other}</td>
+				</tr>
+			</thead>
+			<!--{if $loglist}-->
+				<!--{loop $loglist $log}-->
+					<tr>
+					<td>$log[1]</td>
+					<td>$log[2]</td>
+					<td>
+					{if $log[3] == 1} {lang admin} {elseif $log[3] == 2} {lang supermod} {elseif $log[3] == 3} {lang moderator} {else} GID $log[3] {/if}
+					</td>
+					<td>$log[4]</td>
+					<td>$log[5]</td>
+					<td>$log[6]</td>
+					<td>$log[7]</td>
+					<td><a href="###" title="$log[8]">{lang modcp_logs_request}</a></td>
+					</tr>
+				<!--{/loop}-->
+				</table>
+			<!--{else}-->
+					<tr><td colspan="6">{lang search_nomatch}</td></tr>
+				</table>
+			<!--{/if}-->
+	</div>
+	<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+<!--{/if}-->

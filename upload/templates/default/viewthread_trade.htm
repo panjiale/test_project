@@ -1,0 +1,124 @@
+{subtemplate viewthread_special_header}
+
+<h6>{lang special_trade}</h6>
+
+<!--{if $lastmod['modaction'] || $thread['readperm'] || $thread[itemid] || $lastmod['magicname']}-->
+	<ins>
+	<!--{if $lastmod['modaction']}-->&nbsp; <a href="misc.php?action=viewthreadmod&amp;tid=$tid" title="{lang thread_mod}" target="_blank">{lang thread_mod_by}</a>&nbsp;<!--{/if}-->
+	<!--{if $thread['readperm']}-->&nbsp; {lang readperm_thread} <span class="bold">$thread[readperm]</span> &nbsp;<!--{/if}-->
+	<!--{if $lastmod['magicname']}-->&nbsp; <a href="misc.php?action=viewthreadmod&amp;tid=$tid" title="{lang thread_mod}" target="_blank">{lang magics_logs}</a>&nbsp;<!--{/if}-->
+	</ins>
+<!--{/if}-->
+<table summary="" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="postcontent">
+			<label>{lang post_trade_totalnumber}: <strong>$tradenum</strong></label><h1>$thread[subject]</h1>
+			<div class="postmessage">
+			<!--{if !empty($post[ratings])}--><span class="postratings"><a href="misc.php?action=viewratings&amp;tid=$tid&amp;pid=$post[pid]" title="{lang rate} $post[rate]">$post[ratings]</a></span><!--{/if}-->
+			<div id="postmessage_$post[pid]">$post[counterdesc]</div>
+
+			<!--{if $tradenum}-->
+				<!--{if $trades}-->
+					<div class="box tradethumblist">
+						<h4>{lang post_trade_sticklist}</h4>
+						<!--{loop $trades $key $trade}-->
+							<!--{if $trade['displayorder'] > 0}-->
+								<dl>
+									<dt></dt>
+									<dd class="thumblist" onclick="window.open('viewthread.php?do=tradeinfo&amp;tid=$tid&amp;pid=$trade[pid]','','')">
+										<img {if $trade['thumb']}src="$trade[thumb]"{else}src="{IMGDIR}/trade_nophoto.gif"{/if} onload="thumbImg(this)" width="96" height="96" alt="{if $trade['typeid']}[{$tradetypes[$trade['typeid']]}] {/if}$trade[subject]" />
+									</dd>
+									<dd>
+										<p class="tradename"><a href="viewthread.php?do=tradeinfo&amp;tid=$tid&amp;pid=$trade[pid]" target="_blank">$trade[subject]</a></p>
+										<!--{if $trade['costprice'] > 0}-->
+											<p>{lang trade_costprice} <del>$trade[costprice]</del> {lang payment_unit}</p>
+										<!--{/if}-->
+										<p>{lang trade_price} <strong>$trade[price]</strong> {lang payment_unit}</p>
+										<p>
+										<!--{if $trade[closed]}-->
+											<em>{lang trade_timeout}</em>
+										<!--{elseif $trade[expiration] > 0}-->
+											{$trade[expiration]}{lang trade_day}{$trade[expirationhour]}{lang trade_hour}
+										<!--{elseif $trade[expiration] == -1}-->
+											<em>{lang trade_timeout}</em>
+										<!--{/if}-->
+										</p>
+									</dd>
+								</dl>
+							<!--{/if}-->
+						<!--{/loop}-->
+					</div>
+				<!--{/if}-->
+				<!--{if $tradelist}-->
+					<div id="ajaxtradelist"></div>
+					<script type="text/javascript">ajaxget('viewthread.php?fid=$fid&tid=$tid&do=viewtradelist&page=1#', 'ajaxtradelist');</script>
+				<!--{/if}-->
+
+				<!--{if $discuz_uid == $thread['authorid']}-->
+					<button type="button" onclick="window.open('my.php?item=selltrades&tid=$tid','','')">{lang trade_show_log}</button>&nbsp;&nbsp;
+					<button type="button" onclick="location.href='misc.php?action=tradeorder&tid=$tid'">{lang trade_displayorder}</button>&nbsp;&nbsp;
+					<!--{if $allowposttrade}--><button type="button" onclick="location.href='post.php?action=reply&fid=$fid&tid=$tid&addtrade=yes&extra=$extra'">{lang trade_add_post}</button><!--{/if}-->
+				<!--{/if}-->
+
+				<!--{if $thread['tags'] || $relatedkeywords}-->
+					<p class="posttags">{lang thread_keywords}
+					<!--{if $thread['tags']}-->$thread[tags]<!--{/if}-->
+					<!--{if $relatedkeywords}--><span class="postkeywords">$relatedkeywords</span><!--{/if}-->
+					</p>
+				<!--{/if}-->
+
+				<!--{if $relatedtagstatus}-->
+					<script type="text/javascript" src="tag.php?action=relatetag&rtid=$tid"></script>
+				<!--{/if}-->
+
+			<!--{else}-->
+				<div class="notice">{lang trade_nogoods}</div>
+				<!--{if $discuz_uid == $thread['authorid'] && $allowposttrade}--><br /><button type="button" onclick="location.href='post.php?action=reply&fid=$fid&tid=$tid&addtrade=yes&extra=$extra'">{lang trade_add_post}</button><!--{/if}-->
+			<!--{/if}-->
+			</div>
+		</td>
+		<td class="postauthor">
+			$post[avatar]
+			<dl>
+				<dt>{lang trade_seller}</dt><dd><a href="space.php?username=$post[usernameenc]" target="_blank">$post[username]</a></dd>
+				<dt>$post[authortitle]</dt><dd>&nbsp;</dd>
+				<dt>{eval showstars($post['stars']);}</dt><dd>&nbsp;</dd>
+				<dt>{lang eccredit_buyerinfo}</dt><dd>$post[sellercredit] <a href="eccredit.php?uid=$post[uid]" target="_blank"><img src="images/rank/seller/$post['sellerrank'].gif" alt="$post[sellercredit]" /></a></dd>
+				<dt>{lang eccredit_sellerinfo}</dt><dd>$post[buyercredit] <a href="eccredit.php?uid=$post[uid]" target="_blank"><img src="images/rank/buyer/$post['buyerrank'].gif" alt="$post[buyercredit]" /></a></dd>
+				<!--{if $spacedata['limitmytrades']}--><dt><a href="space.php?$post[uid]/mytrades" target="_blank">{lang trade_view_space}</a></dt><dd>&nbsp;</dd><!--{/if}-->
+			</dl>
+			<!--{if $post['msn'] || $post['qq'] || $post['icq'] || $post['yahoo'] || $post['taobao']}-->
+			<p class="imicons">
+				<!--{if $post['msn']}--><a href="javascript:;" onclick="msnoperate('add', '$post[msn]')" title="{lang msn_add}"><img src="{IMGDIR}/msnadd.gif" alt="{lang msn_add}" /></a>
+					<a href="javascript:;" onclick="msnoperate('chat', '$post[msn]')" title="{lang msn_chat}"><img src="{IMGDIR}/msnchat.gif" alt="{lang msn_chat}" /></a><!--{/if}-->
+				<!--{if $post['qq']}--><a href="http://wpa.qq.com/msgrd?V=1&amp;Uin=$post[qq]&amp;Site=$bbname&amp;Menu=yes" target="_blank"><img src="{IMGDIR}/qq.gif" alt="QQ" /></a><!--{/if}-->
+				<!--{if $post['icq']}--><a href="http://wwp.icq.com/scripts/search.dll?to=$post[icq]" target="_blank"><img src="{IMGDIR}/icq.gif" alt="ICQ" /></a><!--{/if}-->
+				<!--{if $post['yahoo']}--><a href="http://edit.yahoo.com/config/send_webmesg?.target=$post[yahoo]&.src=pg" target="_blank"><img src="{IMGDIR}/yahoo.gif" alt="Yahoo!"  /></a><!--{/if}-->
+				<!--{if $post['taobao']}--><script type="text/javascript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$post[taobaoas]')+'&s=2"><img src="{IMGDIR}/taobao.gif" alt="{lang taobao}" /></a>');</script><!--{/if}-->
+			</p>
+			<!--{/if}-->
+			<!--{if $customauthorinfo[3]}--><dl class="profile">{eval @eval('echo "'.$customauthorinfo[3].'";');}</dl><!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<td class="postcontent">
+			<p class="postactions">
+				<!--{if $forum['ismoderator'] || $thread[authorid] == $discuz_uid}--><a href="post.php?action=edit&amp;fid=$fid&amp;tid=$tid&amp;pid=$post[pid]&amp;page=$page&amp;extra=$extra">{lang edit}</a><!--{/if}-->
+				<!--{if $raterange && $thread['authorid']}--><a href="misc.php?action=rate&amp;tid=$tid&amp;pid=$post[pid]&amp;page=$page" id="ajax_rate_$post[pid]" onclick="ajaxmenu(event, this.id, 9000000, '', 0)">{lang rate}</a><!--{/if}-->
+				<!--{if $discuz_uid && $magicstatus}--><a href="magic.php?action=user&amp;pid=$post[pid]" target="_blank">{lang magics_use}</a><!--{/if}-->
+			</p>
+			</td>
+		<td class="postauthor">&nbsp;</td>
+	</tr>
+</table>
+</div>
+$tagscript
+
+<!--{if $admode && empty($insenz['hardadstatus']) && !empty($advlist['interthread']) && $thread['replies']}--><div class="ad_column" id="ad_interthread">$advlist[interthread]</div><!--{else}--><div id="ad_interthread"></div><!--{/if}-->
+
+<!--{if $tradenum}-->
+	<div id="ajaxtradepost"></div>
+	<script type="text/javascript">ajaxget('viewthread.php?fid=$fid&tid=$tid&do=viewall&page=$page', 'ajaxtradepost');</script>
+<!--{/if}-->
+
+{subtemplate viewthread_special_footer}

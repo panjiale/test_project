@@ -1,0 +1,156 @@
+<div class="mainbox">
+	<h1>{lang mod_access_specialuser}</h1>
+	<table summary="" cellspacing="0" cellpadding="0">
+		<thead>
+			<tr align="center">
+				<td width="15%">{lang member}</td>
+				<td width="15%">{lang forum}</td>
+				<th width="8%">{lang mod_access_viewthread}</th>
+				<th width="8%">{lang mod_access_postthread}</th>
+				<th width="8%">{lang mod_access_postreply}</th>
+				<th width="8%">{lang mod_access_upload}</th>
+				<th width="8%">{lang mod_access_download}</th>
+				<td width="15%">{lang mod_access_optime}</td>
+				<td width="15%">{lang moderator}</td>
+			</tr>
+		</thead>
+		<!--{if $list[data]}-->
+			<!--{loop $list[data] $uid $access}-->
+				<tr align="center">
+				<td>{if $users[$uid] != ''}<a href="space.php?uid=$uid" target="_blank">$users[$uid]</a>{else}UID $uid{/if}</td>
+				<td>$access['forum']</td>
+				<td>$access['allowview']</td>
+				<td>$access['allowpost']</td>
+				<td>$access['allowreply']</td>
+				<td>$access['allowpostattach']</td>
+				<td>$access['allowgetattach']</td>
+				<td>$access[dateline]</td>
+				<td>{if $users[$access[adminuser]] != ''}<a href="space.php?uid=$access[adminuser]" target="_blank">{$users[$access[adminuser]]}</a>{else}UID $access[adminuser]{/if}</td>
+				</tr>
+			<!--{/loop}-->
+		<!--{else}-->
+			<tr><td colspan="9">{lang mod_message_access_nonexistence}</td></tr>
+		<!--{/if}-->
+		<tr>
+			<td colspan="9" align="right">
+				<form method="post" action="{$cpscript}?action=$action&op=$op">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				{lang username}: <input type="text" name="suser" value="$suser" onclick="this.value='';">&nbsp;&nbsp;
+				<select name="fid">
+					<option>{lang all}{lang forum}</option>
+					$forumlistall
+				</select>
+				&nbsp;&nbsp;
+				<button type="submit" class="submit" name="searchsubmit" id="searchsubmit" value="true">{lang search}</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{if !empty($list[pagelink])}--><div class="pages_btns">$list[pagelink]</div><!--{/if}-->
+
+<!--{if $modforums['fids']}-->
+	<script type="text/javascript">
+	function chkallaccess(obj) {
+		$('new_post').checked
+			= $('new_post').disabled
+			= $('new_reply').checked
+			= $('new_reply').disabled
+			= $('new_postattach').checked
+			= $('new_postattach').disabled
+			= $('new_getattach').checked
+			= $('new_getattach').disabled
+			= obj.checked;
+	}
+
+	function disallaccess(obj) {
+		$('new_view').checked
+			= $('new_post').checked
+			= $('new_post').checked
+			= $('new_reply').checked
+			= $('new_postattach').checked
+			= $('new_getattach').checked
+			= false;
+		$('customaccess').disabled
+			= $('new_view').disabled
+			= $('new_view').disabled
+			= $('new_post').disabled
+			= $('new_post').disabled
+			= $('new_reply').disabled
+			= $('new_postattach').disabled
+			= $('new_getattach').disabled
+			= obj.checked;
+	}
+
+	</script>
+	<form method="post" action="{$cpscript}?action=$action&op=add">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="op" value="" id="operation" />
+	<input type="hidden" name="page" value="$page" />
+	<input type="hidden" name="fid" value="$fid" />
+	<div class="mainbox">
+		<h1>{lang mod_member_access_edit}</h1>
+		<table summary="" cellspacing="0" cellpadding="0">
+		<tr>
+			<td>{lang mod_access_selectforum}</td>
+			<td>
+				<select name="fid">
+					<!--{loop $modforums[list] $id $name}-->
+					<option value="$id" {if $id == $fid}selected{/if}>$name</option>
+					<!--{/loop}-->
+				</select>
+			</td>
+		<tr>
+			<td width="18%">{lang username}</td>
+			<td><input type="text" size="30" value="$new_user" name="new_user" /> &nbsp;&nbsp;
+			{if $adderror}
+				<span style="color: red; font-weight: bold"> *
+				<!--{if $adderror == 1}-->
+					{lang mod_message_access_user_nonexistence}
+				<!--{elseif $adderror == 2}-->
+					{lang mod_message_access_user_invalid}
+				<!--{elseif $adderror == 3}-->
+					{lang mod_message_access_admin_invalid}
+				<!--{/if}-->
+				</span>
+			{/if}
+
+			</td>
+
+		</tr>
+		<tr>
+			<td>{lang mod_access_change}</td>
+			<td>
+			<input type="checkbox" value="1" name="deleteaccess" id="deleteaccess" onclick="disallaccess(this)"/> {lang mod_access_recover} &nbsp;&nbsp;
+			<span id="customaccess" style="padding: 0px; border: 0px solid #dddddd">
+			<input type="checkbox" value="-1" name="new_view" id="new_view" onclick="chkallaccess(this)"/> {lang mod_access_ban_viewthread} &nbsp;&nbsp;
+			<input type="checkbox" value="-1" name="new_post" id="new_post"/> {lang mod_access_ban_postthread} &nbsp;&nbsp;
+			<input type="checkbox" value="-1" name="new_reply" id="new_reply"/> {lang mod_access_ban_postreply} &nbsp;&nbsp;
+			<input type="checkbox" value="-1" name="new_postattach" id="new_postattach"/> {lang mod_access_ban_upload} &nbsp;&nbsp;
+			<input type="checkbox" value="-1" name="new_getattach" id="new_getattach"/> {lang mod_access_ban_download}
+			</td>
+
+		</tr>
+		<tr>
+		<td></td><td><button type="submit" class="submit" name="addsubmit" value="true">{lang submit}</button></td>
+		</tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+	<!--{if !empty($deleteaccess)}-->
+		var obj = $('deleteaccess');
+		obj.checked = true;
+		disallaccess(obj);
+	<!--{elseif !empty($new_view)}-->
+		var obj = $('new_view');
+		obj.checked = true;
+		chkallaccess(obj);
+	<!--{/if}-->
+
+	</script>
+<!--{/if}-->
+
+<!--{if $successed}-->
+	<div class="notice">{lang mod_message_access_updatepermission}</div>
+<!--{/if}-->
+<div class="notice" style="font-size: 12px">{lang mod_notice_access}</div>

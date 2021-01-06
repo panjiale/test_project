@@ -1,0 +1,62 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang member_rename}</div>
+
+<form method="post" name="login" action="logging.php?action=rename">
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="auth" value="$auth" />
+<div class="mainbox formbox">
+	<span class="headactions">{faq login}</span>
+	<h1>{lang member_rename}</h1>
+	<table summary="{lang member_rename}" cellspacing="0" cellpadding="0">
+		{subtemplate seccheck}
+		<tr>
+			<th onclick="document.login.username.focus();">
+				{lang member_rename_usernameold}
+			</th>
+			<td>
+				$username
+			</td>
+		</tr>
+		<tr>
+			<th><label for="password">{lang password}</label></th>
+			<td>
+				<input type="password" id="password" name="password" size="25" tabindex="5" />
+			</td>
+		</tr>
+		<tr>
+			<th><label for="usernamenew">{lang member_rename_usernamenew}</label></th>
+			<td>
+				<input type="text" id="usernamenew" name="usernamenew" size="25" tabindex="5" />
+			</td>
+		</tr>
+		<tr>
+			<th><label for="questionid">{lang security_question}</label></th>
+			<td>
+				<select id="questionid" name="questionid" tabindex="6">
+					<option value="0">{lang security_question_0}</option>
+					<option value="1">{lang security_question_1}</option>
+					<option value="2">{lang security_question_2}</option>
+					<option value="3">{lang security_question_3}</option>
+					<option value="4">{lang security_question_4}</option>
+					<option value="5">{lang security_question_5}</option>
+					<option value="6">{lang security_question_6}</option>
+					<option value="7">{lang security_question_7}</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="answer">{lang security_answer}</label></th>
+			<td><input type="text" id="answer" name="answer" size="25" tabindex="7" /> {lang login_secques_comment}</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><button class="submit" type="submit" name="loginsubmit" value="true" tabindex="100">{lang submit}</button></td>
+		</tr>
+	</table>
+</div>
+</form>
+
+<script type="text/javascript">
+document.login.usernamenew.focus();
+</script>
+{subtemplate footer}

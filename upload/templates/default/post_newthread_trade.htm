@@ -1,0 +1,138 @@
+{subtemplate header}
+
+<div id="nav"><a href="$indexname">$bbname</a> $navigation &raquo; {lang post_newthread_trade}</div>
+
+<script type="text/javascript">
+var postminchars = parseInt('$minpostsize');
+var postmaxchars = parseInt('$maxpostsize');
+var disablepostctrl = parseInt('$disablepostctrl');
+var typerequired = parseInt('$forum[threadtypes][required]');
+var tagrequired = parseInt('$forum[allowtag]');
+var bbinsert = parseInt('$bbinsert');
+var seccodecheck = parseInt('$seccodecheck');
+var secqaacheck = parseInt('$secqaacheck');
+var special = 2;
+var tradepost = 1;
+var isfirstpost = 1;
+var allowposttrade = parseInt('$allowposttrade');
+var allowpostreward = parseInt('$allowpostreward');
+var allowpostactivity = parseInt('$allowpostactivity');
+lang['board_allowed'] = '{lang board_allowed}';
+lang['lento'] = '{lang lento}';
+lang['bytes'] = '{lang bytes}';
+lang['post_curlength'] = '{lang post_curlength}';
+lang['post_subject_and_message_isnull'] = '{lang post_subject_and_message_isnull}';
+lang['post_subject_toolong'] = '{lang post_subject_toolong}';
+lang['post_message_length_invalid'] = '{lang post_message_length_invalid}';
+lang['post_type_isnull'] = '{lang post_type_isnull}';
+lang['post_tag_isnull'] = '{lang post_tag_isnull}';
+lang['post_trade_alipay_null'] = '{lang post_trade_alipay_null}';
+lang['post_trade_goodsname_null'] = '{lang post_trade_goodsname_null}';
+lang['post_trade_price_null'] = '{lang post_trade_price_null}';
+lang['post_trade_addr_null'] = '{lang post_trade_addr_null}';
+</script>
+
+{subtemplate post_preview}
+
+<form method="post" id="postform" action="post.php?action=newtrade&fid=$fid&extra=$extra&topicsubmit=yes" $enctype>
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="frombbs" value="1" />
+	<input type="hidden" name="special" value="2" />
+
+	<div class="mainbox formbox">
+		<span class="headactions"><a href="member.php?action=credits&view=forum_post&fid=$fid" target="_blank">{lang credits_policy_view}</a></span>
+		<h1>{lang post_newthread_trade}</h1>
+		<table summary="post" cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<th>{lang username}</th>
+				<td>
+					<!--{if $discuz_uid}-->
+						$discuz_userss [<a href="$link_logout">{lang member_logout}</a>]
+					<!--{else}-->
+						{lang guest} [<a href="$link_login">{lang member_login}</a>]
+					<!--{/if}-->
+				</td>
+			</tr>
+		</thead>
+
+		{subtemplate seccheck}
+
+		<tr>
+			<th><label for="subject">{lang subject}</label></th>
+			<td>
+				$typeselect
+				<input type="text" name="subject" id="subject" size="45" value="$subject" tabindex="3" />
+			</td>
+		</tr>
+
+		<thead>
+			<tr>
+				<th>{lang post_trade_counterinfo}</th>
+				<td>&nbsp;</td>
+			</tr>
+		</thead>
+
+		<tr>
+		<th><label for="threaddesc">{lang post_trade_counterdesc}</label></th>
+		<td><textarea name="counterdesc" id="counterdesc" rows="10" cols="20" style="width:99%; height:60px" tabindex="4"></textarea></td>
+		</tr>
+
+		<tr>
+		<th><label for="aboutthread">{lang post_trade_aboutcounter}</label></th>
+		<td><textarea name="aboutcounter" id="aboutcounter" rows="10" cols="20" style="width:99%; height:60px" tabindex="5"></textarea></td>
+		</tr>
+
+		<thead>
+			<tr>
+				<th>{lang post_goodsinfo}</th>
+				<td>&nbsp;</td>
+			</tr>
+		</thead>
+
+		{subtemplate post_trade}
+
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<td><label><input id="advshow" class="checkbox" type="checkbox" onclick="showadv()" tabindex="201" />{lang post_otherinfo}</label></td>
+			</tr>
+		</thead>
+		<tbody id="adv" style="display: none">
+
+			<!--{if $allowsetreadperm}-->
+				<tr>
+					<th><label for="readperm">{lang readperm_thread}</label></th>
+					<td><input type="text" name="readperm" id="readperm" size="6" value="$readperm" tabindex="202" /> <em class="tips">({lang post_zero_is_nopermission})</em></td>
+				</tr>
+			<!--{/if}-->
+
+			</tbody>
+			<tr class="btns">
+				<th>&nbsp;</th>
+				<td>
+					<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+					<button type="submit" name="topicsubmit" id="postsubmit" value="true" tabindex="300">{lang post_newthread_trade}</button>
+					<em>{lang post_submit_hotkey}</em>&nbsp;&nbsp;
+					&nbsp;<a href="###" id="restoredata" onclick="loadData()" title="{lang post_autosave_last_restore}">{lang post_autosave_restore}</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+<br />
+
+</form>
+
+<script type="text/javascript">
+	function showadv() {
+		if($("advshow").checked == true) {
+			$("adv").style.display = "";
+		} else {
+			$("adv").style.display = "none";
+		}
+	}
+</script>
+
+{subtemplate post_js}
+
+{subtemplate footer}

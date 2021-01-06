@@ -1,0 +1,109 @@
+<script type="text/javascript">
+function updateseccode(op) {
+	if(isUndefined(op)) {
+		var x = new Ajax();
+		x.get('ajax.php?action=updateseccode&inajax=1', function(s) {
+			$('seccodeimage').innerHTML = s;
+		});
+	} else {
+		window.document.seccodeplayer.SetVariable("isPlay", "1");
+	}
+}
+
+function updatesecqaa() {
+	var x = new Ajax();
+	x.get('ajax.php?action=updatesecqaa&inajax=1', function(s) {
+		$('secquestion').innerHTML = s;
+	});
+}
+</script>
+
+<!--{if $seccodecheck}-->
+	<tr>
+	<th><label for="seccodeverify">{lang seccode}</label></th>
+	<td>
+		<div id="seccodeimage"></div><em class="tips" ><!--{if $seccodedata['type'] == 2}-->{lang seccode_animator_flashrefresh}<!--{elseif $seccodedata['type'] == 3}-->{lang seccode_wavrefresh}<!--{elseif $seccodedata['animator'] == 1}-->{lang seccode_animator_refresh}<!--{else}-->{lang seccode_refresh}<!--{/if}--></em><br />
+		<input type="text"{if !$seccodedata['noclick']} onfocus="updateseccode();this.onfocus = null"{/if} id="seccodeverify" name="seccodeverify" onBlur="checkseccode()" size="8" maxlength="4" tabindex="1" />
+		<span id="checkseccodeverify">&nbsp;<!--{if !$seccodedata['noclick']}--><strong>{lang seccode_click}</strong><!--{/if}--></span>
+	</td>
+	</tr>
+	<!--{if $seccodedata['noclick']}-->
+		<script type="text/javascript">
+		updateseccode();
+		</script>
+	<!--{/if}-->
+<!--{/if}-->
+
+<!--{if $secqaacheck}-->
+	<tr>
+	<th>{lang secqaa}</th>
+	<td>
+		<div id="secquestion"></div><input type="text" name="secanswer" onBlur="checksecanswer()" size="25" maxlength="50" tabindex="2" />
+		<span id="checksecanswer">&nbsp;</span>
+	</td>
+	</tr>
+	<script type="text/javascript">
+	<!--{if ($attackevasive & 1) && $seccodecheck}-->
+		setTimeout("updatesecqaa()", 2001);
+	<!--{else}-->
+		updatesecqaa();
+	<!--{/if}-->
+	</script>
+<!--{/if}-->
+
+<script type="text/javascript">
+var profile_seccode_invalid = '{lang register_profile_seccode_invalid}';
+var profile_secanswer_invalid = '{lang register_profile_secqaa_invalid}';
+var lastseccode = lastsecanswer = '';
+function checkseccode() {
+	var seccodeverify = $('seccodeverify').value;
+	if(seccodeverify == lastseccode) {
+		return;
+	} else {
+		lastseccode = seccodeverify;
+	}
+	var cs = $('checkseccodeverify');
+	<!--{if $seccodedata['type'] != 1}-->
+		if(!(/[0-9A-Za-z]{4}/.test(seccodeverify))) {
+			warning(cs, profile_seccode_invalid);
+			return;
+		}
+	<!--{else}-->
+		if(seccodeverify.length != 2) {
+			warning(cs, profile_seccode_invalid);
+			return;
+		}
+	<!--{/if}-->
+	ajaxresponse('checkseccodeverify', 'action=checkseccode&seccodeverify=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeverify) : seccodeverify));
+}
+function checksecanswer() {
+        var secanswer = $('secanswer').value;
+	if(secanswer == lastsecanswer) {
+		return;
+	} else {
+		lastsecanswer = secanswer;
+	}
+	ajaxresponse('checksecanswer', 'action=checksecanswer&secanswer=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(secanswer) : secanswer));
+}
+function ajaxresponse(objname, data) {
+	var x = new Ajax('XML', objname);
+	x.get('ajax.php?inajax=1&' + data, function(s){
+	        var obj = $(objname);
+	        if(s == 'succeed') {
+	        	obj.style.display = '';
+	                obj.innerHTML = '<img src="{IMGDIR}/check_right.gif" width="13" height="13">';
+			obj.className = "warning";
+		} else {
+			warning(obj, s);
+		}
+	});
+}
+function warning(obj, msg) {
+	if((ton = obj.id.substr(5, obj.id.length)) != 'password2') {
+		$(ton).select();
+	}
+	obj.style.display = '';
+	obj.innerHTML = '<img src="{IMGDIR}/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+	obj.className = "warning";
+}
+</script>

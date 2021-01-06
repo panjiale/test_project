@@ -1,0 +1,80 @@
+<!--{if !empty($jsmenu[2])}-->
+	<ul class="popupmenu_popup headermenu_popup" id="memcp_menu" style="display: none">
+		<li><a href="memcp.php">{lang memcp_home}</a></li>
+		<li><a href="memcp.php?action=profile">{lang memcp_profile}</a></li>
+		<!--{if $exchangestatus || $transferstatus || $ec_ratio}-->
+			<li><a href="memcp.php?action=credits">{lang memcp_credits}</a></li>
+		<!--{/if}-->
+		<li><a href="memcp.php?action=creditslog">{lang memcp_credits_log}</a></li>
+		<li><a href="memcp.php?action=usergroups">{lang memcp_usergroups}</a></li>
+		<!--{if $medalstatus}-->
+			<li><a href="medal.php">{lang medals}</a></li>
+		<!--{/if}-->
+		<!--{if $creditspolicy['promotion_visit'] || $creditspolicy['promotion_register']}-->
+			<li><a href="memcp.php">{lang post_my_advisit}</a></li>
+		<!--{/if}-->
+	</ul>
+<!--{/if}-->
+
+<!--{if !empty($plugins['jsmenu'])}-->
+	<ul class="popupmenu_popup headermenu_popup" id="plugin_menu" style="display: none">
+	<!--{loop $plugins['jsmenu'] $module}-->
+	     <!--{if !$module['adminid'] || ($module['adminid'] && $adminid > 0 && $module['adminid'] >= $adminid)}-->
+	     <li>$module[url]</li>
+	     <!--{/if}-->
+	<!--{/loop}-->
+	</ul>
+<!--{/if}-->
+
+<!--{if !empty($jsmenu[3])}-->
+	<ul class="popupmenu_popup headermenu_popup" id="stats_menu" style="display: none">
+		<li><a href="stats.php">{lang stats_main}</a></li>
+		<!--{if $statstatus}-->
+			<li><a href="stats.php?type=views">{lang stats_views}</a></li><li><a href="stats.php?type=agent">{lang stats_agent}</a></li><li><a href="stats.php?type=posts">{lang stats_posthist}</a></li>
+		<!--{/if}-->
+		<li><a href="stats.php?type=forumsrank">{lang stats_forums_rank}</a></li><li><a href="stats.php?type=threadsrank">{lang stats_threads_rank}</a></li><li><a href="stats.php?type=postsrank">{lang stats_posts_rank}</a></li><li><a href="stats.php?type=creditsrank">{lang stats_credits_rank}</a></li>
+		<li><a href="stats.php?type=trade">{lang stats_trade_rank}</a></li>
+		<!--{if $oltimespan}--><li><a href="stats.php?type=onlinetime">{lang stats_onlinetime}</a></li><!--{/if}-->
+		<li><a href="stats.php?type=team">{lang stats_team}</a></li>
+		<!--{if $modworkstatus}--><li><a href="stats.php?type=modworks">{lang stats_modworks}</a></li><!--{/if}-->
+	</ul>
+<!--{/if}-->
+
+<!--{if $discuz_uid && $jsmenu[4]}-->
+	<ul class="popupmenu_popup headermenu_popup" id="my_menu" style="display: none">
+		<li><a href="my.php?item=threads">{lang show_mytopics}</a></li>
+		<li><a href="my.php?item=favorites&type=thread">{lang my_favorites}</a></li>
+		<li><a href="my.php?item=subscriptions">{lang my_subscriptions}</a></li>
+		<li><a href="my.php?item=grouppermission">{lang my_permissions}</a></li>
+		<li><a href="my.php?item=polls&type=poll">{lang my_polls}</a></li>
+		<li><a href="my.php?item=tradestats">{lang my_trades}</a></li>
+		<li><a href="my.php?item=reward&type=stats">{lang my_rewards}</a></li>
+		<li><a href="my.php?item=activities&type=orig&ended=no">{lang my_activities}</a></li>
+		<li><a href="my.php?item=debate&type=debate">{lang my_debate}</a></li>
+		<!--{if $videoopen}-->
+			<li><a href="my.php?item=video">{lang my_video}</a></li>
+		<!--{/if}-->
+		<li><a href="my.php?item=buddylist">{lang my_buddylist}</a></li>
+		<!--{if $ucappopen['UCHOME']}-->
+			<li><a href="{$uchomeurl}/space.php?uid=$discuz_uid" target="_blank">{lang space_my}</a></li>
+		<!--{elseif $ucappopen['XSPACE']}-->
+			<li><a href="{$xspaceurl}/?uid-$discuz_uid" target="_blank">{lang space_my}</a></li>
+		<!--{/if}-->
+	</ul>
+<!--{/if}-->
+
+<!--{if $discuz_uid}-->
+	<ul class="popupmenu_popup" id="viewpro_menu" style="display: none">
+		<li class="popavatar"><img src="{echo discuz_uc_avatar($discuz_uid, 'small');}" /></li>
+		<li class="popuser"><a href="space.php?uid=$discuz_uid">{lang space_profile}</a></li>
+		<li class="poplink">
+		<!--{if $ucappopen['UCHOME']}-->
+			<a href="{$uchomeurl}/space.php?uid=$discuz_uid" target="_blank">{lang space_my}</a>
+		<!--{elseif $ucappopen['XSPACE']}-->
+			<a href="{$xspaceurl}/?uid-$discuz_uid" target="_blank">{lang space_my}</a>
+		<!--{else}-->
+			{lang space_my}
+		<!--{/if}-->
+		</li>
+	</ul>
+<!--{/if}-->

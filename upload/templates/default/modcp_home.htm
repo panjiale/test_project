@@ -1,0 +1,83 @@
+<div class="mainbox">
+<h1>{lang modcp_home_event}</h1>
+<table cellspacing="0" cellpadding="0">
+<thead class="category">
+	<tr align="center">
+	<td>{lang modcp_home_event_forums}: $modforumnum</td>
+	<td>{lang modcp_home_event_report}: $reportnum</td>
+	<th>{lang modcp_home_event_posts}: $modpostnum</th>
+	<td>{lang modcp_home_event_threads}: $modthreadnum</td>
+	</tr></thead>
+</table>
+</div>
+
+<form method="post" action="{$cpscript}?action=$action" name="notelist" id="notelist">
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="op" value="delete" />
+<div class="mainbox">
+<h1>{lang modcp_home_adminnote}</h1>
+<table cellspacing="0" cellpadding="0" style="table-layout: fixed">
+<thead>
+	<tr>
+		<th width="8%"><input class="checkbox" type="checkbox" onclick="checkall($('notelist'), 'delete', 'ncheck')" name="ncheck">{lang delete}</th>
+		<th width="50%">{lang content}</th>
+		<th width="15%">{lang dateline}</th>
+		<th width="15%">{lang author}</th>	
+		<th width="10%">{lang modcp_home_adminnote_days}</th>
+	</tr>
+</thead>
+<tbody>
+<!--{loop $notelist $note}-->
+	<tr>
+	<td>$note[checkbox]</td>
+	<td style="wordBreak: break-all; wordWrap: break-word; overflow: hidden">$note[message]</td>
+	<td>$note[dateline]</td>
+	<td>$note[admin]</td>
+	<td>$note[expiration] {lang days}</td>
+	</tr>
+<!--{/loop}-->
+</tbody>
+<tr>
+	<td colspan="5" align="center"><button type="submit" class="submit" name="submit" value="true">{lang modcp_home_adminnote_delete}</button></td>
+</tr>
+</table>
+</div>
+</form>
+
+<div class="mainbox">
+<form method="post" action="{$cpscript}?action=$action">
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="op" value="addnote"/>
+<h1>{lang modcp_home_adminnote_add}</h1>
+<table cellspacing="0" cellpadding="0">
+	<tr>
+	<td width="20%">{lang username}</td>
+	<td>$discuz_userss</td>
+	</tr>
+
+	<tr>
+	<td>{lang modcp_home_adminnote_days}</td>
+	<td><input type="text" size="10" name="newexpiration" value="10"></td>
+	</tr>
+
+	<tr>
+	<td>{lang modcp_home_adminnote_to}</td>
+	<td>
+	<label><input type="checkbox" value="1" name="newaccess[1]" checked disabled> {lang admin}</label>
+	<label><input type="checkbox" value="1" name="newaccess[2]" checked> {lang supermod}</label>
+	<label><input type="checkbox" value="1" name="newaccess[3]" checked> {lang moderator}</label>
+	</td>
+	</tr>
+
+	<tr>
+	<td>{lang message}</td>
+	<td><textarea style="width: 90%" name="newmessage" rows="5"></textarea></td>
+	</tr>
+
+	<tr>
+	<td></td>
+	<td><button type="submit" class="submit" name="submit" value="true">{lang submit}</button></td>
+	</tr>
+</table>
+</form>
+</div>

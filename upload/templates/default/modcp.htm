@@ -1,0 +1,79 @@
+{subtemplate header}
+	<div id="nav"><a href="$indexname">$bbname</a> &raquo; <a href="modcp.php">{lang modcp}</a></div>
+	<div class="container">
+		<div class="side">
+			<div>
+				<!--{if $allowpostannounce}-->
+				<h2>{lang mod_option_announce}</h2>
+				<ul>
+					<li>
+						<a href="{$cpscript}?action=announcements&op=add">{lang mod_announce_add}</a>&nbsp;&nbsp;&nbsp;
+						<a href="{$cpscript}?action=announcements&op=list">{lang mod_option_announce_list}</a>
+					</li>
+				</ul>
+				<!--{/if}-->
+
+				<!--{if $allowedituser || $allowbanuser || $allowbanip}-->
+				<h2>{lang mod_option_member}</h2>
+				<ul>
+					<!--{if $allowedituser || $allowbanuser}-->
+						<li>
+							{if $allowedituser}<a href="{$cpscript}?action=members&op=edit">{lang mod_option_member_edit}</a>&nbsp;&nbsp;&nbsp;{/if}
+							{if $allowbanuser}<a href="{$cpscript}?action=members&op=ban">{lang mod_option_member_ban}</a>{/if}
+						</li>
+					<!--{/if}-->
+
+				<li>
+					<!--{if $modforums['fids']}-->
+					<a href="{$cpscript}?action=forumaccess{$forcefid}">{lang mod_option_member_access}</a>&nbsp;&nbsp;&nbsp;
+					<!--{/if}-->
+
+					<!--{if $allowbanip}-->
+						<a href="{$cpscript}?action=members&op=ipban">{lang mod_option_member_ipban}</a>&nbsp;&nbsp;&nbsp;
+					<!--{/if}-->
+				</li>
+				</ul>
+				<!--{/if}-->
+
+				<!--{if $modforums['fids']}-->
+				<h2>{lang mod_option_forum}</h2>
+				<ul>
+					<li><a href="{$cpscript}?action=forums&op=editforum{$forcefid}">{lang mod_option_forum_edit}</a>&nbsp;&nbsp;&nbsp;<a href="{$cpscript}?action=forums&op=recommend{$forcefid}">{lang mod_option_forum_recommend}</a></li>
+				</ul>
+
+				<h2>{lang mod_option_subject}</h2>
+				<ul>
+					<li><a href="{$cpscript}?action=report$forcefid">{lang mod_option_subject_report}</a>&nbsp;&nbsp;&nbsp;<a href="{$cpscript}?action=threads&op={$forcefid}"></a></li>
+					<!--{if $allowmodpost}-->
+					<li><a href="{$cpscript}?action=moderate&op=threads{$forcefid}">{lang mod_option_subject_modthreads}</a>&nbsp;&nbsp;&nbsp;<a href="{$cpscript}?action=moderate&op=replies{$forcefid}">{lang mod_option_subject_modreplies}</a></li>
+					<!--{/if}-->
+				</ul>
+				<!--{/if}-->
+				<h2>{lang mod_option_other}</h2>
+				<ul>
+					<li><a href="{$cpscript}?action=logs">{lang modcp_logs}</a></li>
+					<li><a href="{if $forcefid}forumdisplay.php?op=1list{$forcefid}{else}$indexname{/if}">{lang mod_option_return}</a></li>
+					<li><a href="{$cpscript}?action=logout">{lang mod_option_logout}</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<!--{if $script == 'noperm'}-->
+				<div class="mainbox">
+					<h3>{lang mod_option_error}</h3>
+					<table cellspacing="0" cellpadding="0">
+						<tr>
+							<td>{lang mod_error_invalid}</td>
+						</tr>
+					</table>
+					</form>
+				</div>
+
+				<div class="notice">{lang mod_notice}</div>
+			<!--{elseif !empty($modtpl)}-->
+				{eval include(template($modtpl));}
+			<!--{/if}-->
+		</div>
+	</div>
+
+{subtemplate footer}

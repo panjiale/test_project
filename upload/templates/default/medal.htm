@@ -1,0 +1,93 @@
+{subtemplate header}
+
+	<div id="nav"><a href="$indexname">$bbname</a> &raquo; <!--{if empty($action)}-->{lang medals_list}<!--{elseif $action == 'log'}-->{lang medals_log}<!--{/if}--></div>
+	<div class="container">
+		<div class="side">
+			{template personal_navbar}
+		</div>
+		<div class="content">
+			<!--{if empty($action)}-->
+				<div class="mainbox">
+					<h1>{lang medals_list}</h1>
+					<table summary="{medals}" cellspacing="0" cellpadding="0">
+					<!--{if $medallist}-->
+						<!--{loop $medallist $key $medal}-->
+							<tr>
+							<td width="20%" class="attriblist" valign="top">
+								<dl>
+									<dt><img src="images/common/$medal[image]" alt="$medal[name]" /></dt>
+									<dd class="name">$medal[name]</dd>
+									<dd><!--{if $medal[type]}--><a href="medal.php?action=apply&medalid=$medal[medalid]">[{lang medals_draw}]</a><!--{/if}--></dd>
+								</dl>
+							</td><td>
+								$medal[description]<br />
+								<!--{if $medal[expiration]}-->{lang medals_expiration} $medal[expiration] {lang medals_days} &nbsp; <!--{/if}-->
+								<!--{if $medal[permission]}-->{lang medals_draw_condition} $medal[permission]<!--{/if}-->
+							</td>
+							</tr>
+							<!--{/loop}-->
+					<!--{else}-->
+						<td colspan="3">{lang medals_nonexistence}</td></tr>
+					<!--{/if}-->
+					</table>
+				</div>
+			<!--{elseif $action == 'log'}-->
+				<div class="mainbox">
+					<h1>{lang medals_log}</h1>
+					<table summary="{medals}" cellspacing="0" cellpadding="0">
+					<thead><tr><td>{lang medals}</td><td>{lang medals_type}</td><td>{lang time}</td><td>{lang medals_expiration}</td></tr></thead>
+					<!--{if $medallogs}-->
+						<!--{loop $medallogs $medallog}-->
+							<tr>
+							<td width="20%" class="attriblist">
+							<dl>
+								<dt><img src="images/common/$medallog[image]" alt="$medallog[name]" /></dt>
+								<dd class="name">$medallog[name]</dd>
+							</dl>
+							</td>
+							<td>
+							<!--{if $medallog['type'] == 0}-->{lang medals_operation_0}
+							<!--{elseif $medallog['type'] == 1}-->{lang medals_operation_1}
+							<!--{elseif $medallog['type'] == 2}-->{lang medals_operation_2}
+							<!--{elseif $medallog['type'] == 3}-->{lang medals_operation_3}
+							<!--{/if}-->
+							</td>
+							<td>$medallog[dateline]</td>
+							<td>
+							<!--{if $medallog['type'] != 2 && $medallog['type'] != 3}-->
+								<!--{if $medallog[expiration]}-->$medallog[expiration]<!--{else}-->{lang medals_noexpire}<!--{/if}-->
+							<!--{/if}-->
+							</td>
+							</tr>
+						<!--{/loop}-->
+					<!--{else}-->
+						<tr><td colspan="3">{lang medals_nonexistence}</td></tr>
+					<!--{/if}-->
+					</table>
+				</div>
+				<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+				
+			<!--{elseif $action == 'apply'}-->
+				<form method="post" action="medal.php?action=apply">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="action" value="apply" />
+				<input type="hidden" name="medalid" value="$medalid" />
+				<div class="mainbox">
+				<h1>{lang medals_draw_list}</h1>
+				<table cellspacing="0" cellpadding="0" width="100%" align="0">
+				<tr><td rowspan="6"align="center" width="20%"><img src="images/common/$medal[image]"><br /></td>
+				<td width="80%"><b>$medal[name]</b></td></tr>
+				<tr><td>$medal[description]</td></tr>
+				<!--{if $medal[expiration]}--><tr><td>{lang medals_expiration} $medal[expiration] {lang medals_days}</td></tr><!--{/if}-->
+				<!--{if $formulamessage}--><tr><td>{lang medals_draw_condition} $formulamessage</td></tr><!--{/if}-->
+				<tr><td>
+					<button class="submit" type="submit" name="medalsubmit" id="medalsubmit" value="true" tabindex="101">{lang medals_draw}</button>
+				</td></tr>
+				</table></div>
+				</form>
+			<!--{/if}-->
+		</div>
+	</div>
+
+
+{subtemplate footer}

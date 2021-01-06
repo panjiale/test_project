@@ -1,0 +1,80 @@
+<!--{if !$inajax}-->
+	{subtemplate header}
+	<div id="nav"><a href="$indexname">$bbname</a> $navigation &raquo; {lang reportpost}</div>
+
+	<form method="post" name="input" action="misc.php?action=report&inajax=$inajax" id="reportpostform">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+
+		<div class="mainbox formbox">
+			<h1>{lang reportpost}</h1>
+			<table summary="{lang reportpost}" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th>{lang username}</th>
+						<td>$discuz_userss [<a href="$link_logout">{lang member_logout}</a>]</td>
+					</tr>
+				</thead>
+
+				<tr>
+					<td valign="top"><label for="type">{lang reportpost_type}</label></td>
+					<td><input type="radio" name="type" value="1" />{lang reportpost_recommend} <input type="radio" name="type" value="0" checked />{lang reportpost_delate}</td>
+				</tr>
+
+				<tr>
+					<th valign="top"><label for="reason">{lang reportpost_suggestion}</label></th>
+					<td><textarea rows="9" id="reason" name="reason" style="width: 98%;"></textarea></td>
+				</tr>
+
+				<tr class="btns">
+					<th>&nbsp;</th>
+					<td>
+						<input type="hidden" name="tid" value="$tid" />
+						<input type="hidden" name="fid" value="$fid" />
+						<input type="hidden" name="pid" value="$pid" />
+						<input type="hidden" name="page" value="$page" />
+						<button class="submit" type="submit" name="reportsubmit" value="true">{lang reportpost}</button>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+	</form>
+	{subtemplate footer}
+<!--{else}-->
+	{template header}
+	<div class="ajaxform">
+		<form method="post" name="input" action="misc.php?action=report&inajax=$inajax&reportsubmit=yes" id="reportpostform">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<table summary="{lang reportpost}" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th>{lang reportpost}</th>
+						<td align="right"><a href="###" onclick="hideMenu()"><img src="{IMGDIR}/close.gif" alt="{lang close}" title="{lang close}" /></a></td>
+					</tr>
+				</thead>
+
+				<tr>
+					<td valign="top"><label for="type">{lang reportpost_type}</label></td>
+					<td><input type="radio" name="type" value="1" />{lang reportpost_recommend} <input type="radio" name="type" value="0" checked />{lang reportpost_delate}</td>
+				</tr>
+
+				<tr>
+					<th valign="top"><label for="reason">{lang reportpost_suggestion}</label></th>
+					<th><textarea rows="4" id="reason" name="reason" style="width: 300px; height: 5em"></textarea></th>
+				</tr>
+
+				<tr class="btns">
+					<th>&nbsp;</th>
+					<td>
+						<input type="hidden" name="tid" value="$tid" />
+						<input type="hidden" name="fid" value="$fid" />
+						<input type="hidden" name="pid" value="$pid" />
+						<input type="hidden" name="page" value="$page" />
+						<button class="submit" type="submit" name="reportsubmit" value="true" onclick="ajaxpost('reportpostform', 'ajax_report_{$pid}_menu');return false">{lang reportpost}</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	{template footer}
+<!--{/if}-->

@@ -1,0 +1,6 @@
+{eval @header("Expires: -1");}
+{eval @header("Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0", FALSE);}
+{eval @header("Pragma: no-cache");}
+{eval @header("Content-type: application/xml; charset=$charset");}
+{echo '<?xml version="1.0" encoding="'.$charset.'"?>';}
+<root><![CDATA[<!--{if !$ucnewpm}-->{lang pm}<!--{else}-->{lang pm_new}<!--{if $pmsound}--><bgsound src="images/sound/pm_$pmsound.wav" /><!--{/if}--><!--{/if}-->]]></root>

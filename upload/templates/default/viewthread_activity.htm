@@ -1,0 +1,196 @@
+{subtemplate viewthread_special_header}
+
+<script type="text/javascript">
+	function checkform(theform) {
+		if (theform.contact.value == '') {
+			alert('{lang activiy_linkman_input}');
+			theform.contact.focus();
+			return false;
+		} else if (theform.contact.value.length > 200) {
+			alert('{lang activiy_linkman_more}');
+			theform.contact.focus();
+			return false;
+		} else if (theform.message.value.length > 200) {
+			alert('{lang activiy_guest_more}');
+			theform.message.focus();
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<h6>{lang special_activity}</h6>
+
+<!--{if $lastmod['modaction'] || $thread['readperm'] || $thread[itemid] || $lastmod['magicname']}-->
+	<ins>
+	<!--{if $lastmod['modaction']}-->&nbsp; <a href="misc.php?action=viewthreadmod&amp;tid=$tid" title="{lang thread_mod}" target="_blank">{lang thread_mod_by}</a>&nbsp;<!--{/if}-->
+	<!--{if $thread['readperm']}-->&nbsp; {lang readperm_thread} <span class="bold">$thread[readperm]</span> &nbsp;<!--{/if}-->
+	<!--{if $lastmod['magicname']}-->&nbsp; <a href="misc.php?action=viewthreadmod&amp;tid=$tid" title="{lang thread_mod}" target="_blank">{lang magics_logs}</a>&nbsp;<!--{/if}-->
+	</ins>
+<!--{/if}-->
+
+<table summary="{lang special_activity}" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="postcontent">
+			<!--{if $activityclose}--><label>{lang activity_close}</label><!--{/if}-->
+			<h1>$thread[subject]</h1>
+			<div class="postmessage">
+				<!--{if !empty($post[ratings])}--><span class="postratings"><a href="misc.php?action=viewratings&amp;tid=$tid&amp;pid=$post[pid]" title="{lang rate} $post[rate]">$post[ratings]</a></span><!--{/if}-->
+				<div class="box">
+					<h4>{lang activity_info}</h4>
+					<table summary="{lang activity_info}" cellpadding="0" cellspacing="0">
+						<tr>
+							<th>{lang activiy_sort}</th>
+							<td>$activity[class]</td>
+						</tr>
+						<tr>
+							<th>{lang activity_starttime}</th>
+							<td>
+								<!--{if $activity['starttimeto']}-->
+									{lang activity_start_between}
+								<!--{else}-->
+									$activity[starttimefrom]
+								<!--{/if}-->
+							</td>
+						</tr>
+						<tr>
+							<th>{lang activity_space}</th>
+							<td>$activity[place]</td>
+						</tr>
+						<tr>
+							<th>{lang activity_payment}</th>
+							<td>{lang activity_about_payment}</td>
+						</tr>
+						<tr>
+							<th>{lang gender}</th>
+							<td>
+								<!--{if $activity['gender'] == 1}-->
+									{lang male}
+								<!--{elseif $activity['gender'] == 2}-->
+									{lang female}
+								<!--{else}-->
+									 {lang unlimited}
+								<!--{/if}-->
+							</td>
+						</tr>
+						<!--{if $activity['expiration']}-->
+						<tr>
+							<th>{lang activity_totime}</th>
+							<td>$activity[expiration]</td>
+						</tr>
+						<!--{/if}-->
+					</table><br />
+					<h2>{lang activity_message}</h2>
+					<div id="postmessage_$post[pid]">$post[message]</div>
+					<!--{if !$activityclose}-->
+						<div class="box">
+						<h4>{lang activity_join}</h4>
+						<!--{if $applied}-->
+							<div class="notice" style="width: 500px"><!--{if !$isverified}-->{lang activity_wait}<!--{else}-->{lang activity_join_audit}<!--{/if}--></div>
+						<!--{else}-->
+							<form id="activityjoin" name="activity" method="post" action="misc.php?action=activityapplies&fid=$fid&tid=$tid" onSubmit="return checkform(this)">
+								<input type="hidden" name="formhash" value="{FORMHASH}" />
+								<table summary="{lang activity_join}" cellpadding="0" cellspacing="0">
+									<tr>
+										<th>{lang activity_paytype}</th>
+										<td>
+											<p><label><input class="radio" type="radio" value="0" name="payment" checked="checked" /> {lang activity_pay_myself}</label></p>
+											<p><label><input class="radio" type="radio" value="1" name="payment" /> {lang activity_would_payment}</label>
+											<input name="payvalue" size="3"> {lang payment_unit}</p>
+										</td>
+									</tr>
+									<tr>
+										<th>{lang activity_linkman}</th>
+										<td><input type="text" name="contact" style="width:80%" maxlength="200" /></td>
+									</tr>
+									<tr>
+										<th>{lang leaveword}</th>
+										<td><input type="text" name="message" style="width:80%" maxlength="200" /></td>
+									</tr>
+									<tr>
+										<th>&nbsp;</th>
+										<td><button class="submit" type="submit" name="activitysubmit" value="true">{lang activity_my_join}</button></td>
+									</tr>
+								</table>
+							</form>
+						<!--{/if}-->
+						</div>
+					<!--{/if}-->
+					<!--{if $applylist}-->
+						<div class="box">
+							<h4>{lang activity_new_join}</h4>
+							<div class="avatarlist">
+							<!--{loop $applylist $apply}-->
+								<dl>
+									<dt><a target="_blank" href="space.php?uid=$apply[uid]"><img src="{echo discuz_uc_avatar($apply[uid], 'small')}" border="0" alt="" /></a></dt>
+									<dd><a target="_blank" href="space.php?uid=$apply[uid]">$apply[username]</a></dd>
+								</dl>
+							<!--{/loop}-->
+							</div>
+						</div>
+					<!--{/if}-->
+				</div>
+
+				<!--{if $post['attachment']}-->
+					<div class="notice postattach">{lang attachment}: <em>{lang attach_nopermission}</em></div>
+				<!--{elseif $hideattach[$post[pid]] && $post['attachments']}-->
+					<div class="notice postattach">{lang attachment}: <em>{lang attachment_reply_show}</em></div>
+				<!--{elseif $postlist[$pid]['attachlist']}-->
+					<div class="box postattachlist">
+						<h4>{lang attachment}</h4>
+						{$postlist[$pid][attachlist]}
+					</div>
+				<!--{/if}-->
+
+				<!--{if $thread['tags'] || $relatedkeywords}-->
+					<p class="posttags">{lang thread_keywords}
+					<!--{if $thread['tags']}-->$thread[tags]<!--{/if}-->
+					<!--{if $relatedkeywords}--><span class="postkeywords">$relatedkeywords</span><!--{/if}-->
+					</p>
+				<!--{/if}-->
+
+				<!--{if $relatedtagstatus}-->
+					<script type="text/javascript" src="tag.php?action=relatetag&rtid=$tid"></script>
+				<!--{/if}-->
+
+			</div>
+
+			<p class="postactions">
+				<!--{if $forum['ismoderator'] || $thread[authorid] == $discuz_uid}--><a href="post.php?action=edit&amp;fid=$fid&amp;tid=$tid&amp;pid=$post[pid]&amp;page=$page&amp;extra=$extra">{lang edit}</a>&nbsp;&nbsp;<!--{/if}-->
+				<!--{if $raterange && $post['authorid']}-->&nbsp;<a href="misc.php?action=rate&amp;tid=$tid&amp;pid=$post[pid]&amp;page=$page" id="ajax_rate_$post[pid]" onclick="ajaxmenu(event, this.id, 9000000, '', 0)">{lang rate}</a>&nbsp;&nbsp;<!--{/if}-->
+				<!--{if $discuz_uid && $magicstatus}--><a href="magic.php?action=user&amp;pid=$post[pid]" target="_blank">{lang magics_use}</a><!--{/if}-->
+			</p>
+		</td>
+		<td class="postauthor">
+			$post[avatar]
+			<dl>
+				<dt>{lang special_author}</dt><dd><a href="space.php?username=$post[author]" target="_blank">$post[author]</a></dd>
+				<dt>$post[authortitle]</dt><dd>&nbsp;</dd>
+				<dt>{eval showstars($post['stars']);}</dt><dd>&nbsp;</dd>
+				<dt>{lang activity_already}</dt><dd>$applynumbers {lang activity_member_unit}</dd>
+			<!--{if $activity['number']}-->
+				<dt>{lang activity_about_member}</dt><dd>$aboutmembers {lang activity_member_unit}</dd>
+			<!--{/if}-->
+			</dl>
+		<!--{if $post['msn'] || $post['qq'] || $post['icq'] || $post['yahoo'] || $post['taobao']}-->
+		<p class="imicons">
+			<!--{if $post['msn']}--><a href="javascript:;" onclick="msnoperate('add', '$post[msn]')" title="{lang msn_add}"><img src="{IMGDIR}/msnadd.gif" alt="{lang msn_add}" /></a>
+				<a href="javascript:;" onclick="msnoperate('chat', '$post[msn]')" title="{lang msn_chat}"><img src="{IMGDIR}/msnchat.gif" alt="{lang msn_chat}" /></a><!--{/if}-->
+			<!--{if $post['qq']}--><a href="http://wpa.qq.com/msgrd?V=1&amp;Uin=$post[qq]&amp;Site=$bbname&amp;Menu=yes" target="_blank"><img src="{IMGDIR}/qq.gif" alt="QQ" /></a><!--{/if}-->
+			<!--{if $post['icq']}--><a href="http://wwp.icq.com/scripts/search.dll?to=$post[icq]" target="_blank"><img src="{IMGDIR}/icq.gif" alt="ICQ" /></a><!--{/if}-->
+			<!--{if $post['yahoo']}--><a href="http://edit.yahoo.com/config/send_webmesg?.target=$post[yahoo]&.src=pg" target="_blank"><img src="{IMGDIR}/yahoo.gif" alt="Yahoo!"  /></a><!--{/if}-->
+			<!--{if $post['taobao']}--><script type="text/javascript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$post[taobaoas]')+'&s=2"><img src="{IMGDIR}/taobao.gif" alt="{lang taobao}" /></a>');</script><!--{/if}-->
+		</p>
+		<!--{/if}-->
+			<!--{if $customauthorinfo[3]}--><dl class="profile">{eval @eval('echo "'.$customauthorinfo[3].'";');}</dl><!--{/if}-->
+		</td>
+	</tr>
+</table></div>
+$tagscript
+
+<!--{if $admode && empty($insenz['hardadstatus']) && !empty($advlist['interthread']) && $thread['replies']}--><div class="ad_column" id="ad_interthread">$advlist[interthread]</div><!--{else}--><div id="ad_interthread"></div><!--{/if}-->
+
+<div id="ajaxspecialpost"></div>
+<script type="text/javascript">ajaxget(<!--{if !empty($do) && $do == 'viewapplylist'}-->'misc.php?action=activityapplylist&tid=$tid#'<!--{else}-->'viewthread.php?fid=$fid&tid=$tid&do=viewspecialpost&page=$page#'<!--{/if}-->, 'ajaxspecialpost');</script>
+
+{subtemplate viewthread_special_footer}

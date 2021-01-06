@@ -1,0 +1,127 @@
+/*
+Spacial Threads Offical Style for Discuz!(R)
+URL: http://www.discuz.net
+(C) 2001-2007 Comsenz Inc.
+<style type="text/css">
+*/
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Spacial Threads ~~~~ */
+
+.avatarlist { overflow: hidden; padding: 5px 0; }
+	* html .avatarlist { height: 1%; }
+	.avatarlist dl { float: left; width: 54px; border: 1px solid {COMMONBOXBORDER}; padding: 5px; margin-right: 5px; text-align: center; }
+		.avatarlist dt { width: 54px; height: 54px; }
+		.avatarlist dl img { width: 48px; height: 48px; }
+	.avatarlist dd { height: 22px; line-height: 22px; overflow: hidden; }
+.specialthread .postcontent h1 { background: {TABLEBG}; font-size: 1.5em; color: {TABLETEXT}; padding: 10px 5px; border-bottom: 1px solid {COMMONBOXBORDER}; }
+	.specialthread .postcontent h1 a { color: {HIGHLIGHTLINK}; }
+.specialthread .postcontent label { float: right; display: inline; margin: 12px 12px 0; border: 1px solid {CATBORDER}; padding: 3px 5px; background: {CATCOLOR} no-repeat 3px 50%; }
+	.specialthread .postcontent label strong { color: {NOTICETEXT}; }
+	.specialthread .postcontent label a { color: {HIGHLIGHTLINK}; }
+.specialthread .postauthor { width: 180px; }
+.specialpostcontainer { padding: 0 1px; }
+.specialpost { border-bottom: 4px solid {ALTBG1}; text-align: right; }
+	.specialpost .postinfo h2  { float: left; font-weight: normal; padding-left: 8px; font-size: {SMFONTSIZE}; }
+	.specialpost .postinfo h2 em {}
+		.specialpost .postinfo { border-color: {ALTBG2}; height: 1.8em; }
+		.specialpost strong { border: none; }
+		.specialpost .postinfo h2 a { font-size: 12px; }
+	.specialpost .postmessage { text-align: left; min-height: 30px; border-bottom: 1px solid {CATBORDER}; }
+		* html .specialpost .postmessage { height: 30px; overflow: visible; }
+		p.imicons { margin: 8px auto; width: 160px;}
+/* [ Poll ] */
+.pollpanel { margin: 1em 0; border-width: 1px 0 0; }
+	.pollpanel h4 span { float: left;line-height:30px;}
+	.pollpanel h4 a { float: right;line-height:30px; font-weight:normal; }
+	.pollpanel tbody td { vertical-align: middle; }
+		.pollpanel tbody td a { color: {HIGHLIGHTLINK} }
+/* [ Reward ] */
+.specialthread_3 .postcontent label { background-image: url({IMGDIR}/rewardsmallend.gif); padding-left: 25px; }
+	.specialthread_3 .postcontent label.unsolved { background-image: url({IMGDIR}/rewardsmall.gif); float:right; }
+	#bestpost { padding-top: 10px; margin-top: 10px; border-top: 1px solid {CATBORDER}; }
+/* [ Activity ] */
+.specialthread_4 .box th { width: 7em; }
+	#activityjoin label { float: none; border: none; background: transparent; padding: 0; margin: 0; }
+.specialthread_4 .taglinks h4 { border-top: none; }
+/* [ Trade ] */
+.tradethread .postmessage { min-height: 160px; }
+	* html .tradethread .postmessage { height: 360px !important; }
+	.tradethread .postauthor dt, .tradethread .postauthor dd { height: 20px; overflow: hidden; }
+*>.tradeinfo { overflow: hidden; }
+	* html .tradeinfo { height: 1%; }
+	.tradeinfo h2 { background: {ALTBG2}; font-size: 1.5em; color: {TABLETEXT}; padding: 10px 5px; border-bottom: 1px solid {COMMONBOXBORDER}; margin-bottom: 1em; }
+	.tradethumb, .tradeattribute { float: left; }
+		.tradethumb { width: 260px; text-align: center;}
+		.tradeattribute { padding-left: 1em; }
+		.tradeattribute img { vertical-align: middle; }
+			.tradeattribute dl { overflow: hidden; padding-bottom:2em !important;  }
+				.tradeattribute dt { float: left; width: 5em; padding: 0.5em; line-height: 2em; clear: left; }
+				.tradeattribute dd { border-bottom: 1px dotted {COMMONBOXBORDER}; padding: 0.5em 1.5em; line-height: 2em; }
+					.tradeattribute em, .tradeattribute del { color: {LIGHTTEXT}; }
+					.tradeattribute strong { font-size: 1.6em; font-weight: bold; color: #F00; }
+	.sellerinfo { float: right; display: inline; margin-right: 1em; width: 180px; }
+		.sellerinfo h4 { border-bottom: 1px dotted {COMMONBOXBORDER}; }
+		.sellerinfo dl { margin: 1em; }
+	.tradeinfo .postinfo { clear: both; }
+	.tradeinfo .postmessage { min-height: 100px; }
+		* html .tradethread .postmessage { height: 100px; }
+
+	*>.tradethumblist { overflow: hidden; }
+		* html .tradethumblist { height: 1%; }
+		.tradethumblist dl { float: left; text-align: center; padding: 10px; width: 170px; height: 220px; w\idth: 150px; he\ight: 200px; }
+			.tradethumblist dd.thumblist { height: 100px; overflow: hidden; }
+				.tradethumblist dd img { vertical-align: middle; cursor: pointer; }
+			.tradethumblist dl p { height: 1.6em; overflow: hidden; }
+			.tradethumblist p.tradename { height: 45px; line-height: 18px; margin-top: 5px; }
+			.tradethumblist del { color: {LIGHTTEXT}; }
+			.tradethumblist strong { font-weight: bold; color: #F00; }
+	 #ajaxtradelist .price { text-align: right; }
+	 	#ajaxtradelist strong { font-weight: bold; color: #F00; }
+	 	#ajaxtradelist .popupmenu_popup { white-space: nowrap;overflow: visible; }
+	 	#ajaxtradelist .popupmenu_popup a { color: {HIGHLIGHTLINK}; }
+/* [ Debate ] */
+.specialthread_5 .postmessage { min-height: inherit; height: auto; }
+.specialthread_5 .box { margin: 0;}
+.specialthread_5 .debatepoints { border-width: 1px 0 0; padding-bottom: 0; border-top: none; margin-bottom: 10px; }
+	.debatepoints tbody td { border: 0px; width: 50%; border-bottom: none; vertical-align: top; }
+		.debatepoints .message td.stand1 { border:1px solid {NOTICEBORDER}; background: {NOTICEBG}; border-bottom: none; }
+		.debatepoints .message td.stand2 { border:1px solid {BGBORDER}; background: {ALTBG1}; border-bottom: none; }
+		.debatepoints .button td.stand1 { border:1px solid {NOTICEBORDER}; background: {NOTICEBG}; border-top: none; }
+		.debatepoints .button td.stand2 { border:1px solid {BGBORDER}; background: {ALTBG1}; border-top: none; }
+	.debatepoints h2 { padding-left: 40px; line-height: 2em; background-position: 5px 1px; background-repeat: no-repeat; }
+		.stand1 h2 { background-image: url({IMGDIR}/debate_stand_1.gif); }
+		.stand2 h2 { background-image: url({IMGDIR}/debate_stand_2.gif); }
+		.poststand0, .poststand1, .poststand2 { font-size: 1.17em; text-align: center; display: block; float: left; border: 1px solid {COMMONBOXBORDER}; background: {COMMONBOXBG}; color: {LIGHTTEXT}; width: 40px; height: 22px; line-height: 22px; margin-right: 12px; }
+		.poststand1 { border: 1px solid {NOTICEBORDER}; background: {NOTICEBG}; color: {NOTICETEXT}; }
+		.poststand2 { border: 1px solid {BGBORDER}; background: {ALTBG1}; color: {HIGHLIGHTLINK}; }
+	.debatepoints p { padding: 0 10px; overflow: hidden; }
+	.debatepoints a { margin: 0 auto; display: block; width: 80px; text-align: center; border: 1px solid; padding: 0.3em 1em; }
+		.debatepoints #affirmbutton { border-color: {NOTICEBORDER}; background: {NOTICEBG}; color: {NOTICETEXT}; }
+		.debatepoints #negabutton { border-color: {BGBORDER}; background: {ALTBG1}; color: {HIGHLIGHTLINK}; }
+.specialthread_5 .optionbar div { float: none; }
+/* [ video ] */
+.videobox { width: 760px; margin: 0 auto; }
+.videoplayer { float: left; text-align: center; margin-bottom: 1em; width: 480px; }
+.singlevideo { width: 99%; }
+	.videoaddr { width: 480px; margin: auto; }
+		.videoaddr dl { padding: 10px;}
+			.videoaddr dt, .videoaddr dd { height: 2.4em; line-height: 2.4em; text-align: left; }
+			.videoaddr dt { float: left; width: 70px; text-align: right; clear: left;  }
+				.videoaddr dt img{ width: 55px; height: 45px; }
+				.videoplayer .postattachlist, .videoplayer .posttags, .videomsg { text-align: left; }
+		.videoplayer input { width: 310px; margin: auto 5px; color: {TEXT}; }
+		.videoplayer a { color: {HIGHLIGHTLINK};}
+
+.videolist { float: right; margin: 0px 10px 0 0 !important; width: 240px; border: 1px solid {COMMONBOXBORDER} !important; }
+	.videolist ul { height: 500px; overflow: scroll; overflow-x:hidden; scrollbar-base-color: #FAFAFA; scrollbar-face-color: {ALTBG2}; scrollbar-darkshadow-color: #CAD9EA; scrollbar-highlight-color:{ALTBG2}; scrollbar-shadow-color: {ALTBG2}; scrollbar-3dlight-color: #CAD9EA; scrollbar-arrow-color; #8EADD3; }
+	.videolist ul li{ padding: 6px; border-bottom: 1px dotted {BGBORDER}; }
+	.videolist ul li dl { height: 55px; overflow: hidden; }
+	.videolist dl dt { float: left; width: 65px; }
+		p.videoname { overflow: hidden; word-break: break-all; height: 20px; }
+	.onplay { background: #eef9ff none scroll 2px 5px;}
+		.onplay em { float: right; background: url({IMGDIR}/arrow_right.gif) 2% 50% no-repeat; margin-top: -1.3em; text-indent: 9px; }
+
+#vido_uploader_wrap { z-index: 999; top: 322px; left: 200px; position: absolute; }
+
+#vido_uploader_wrap { z-index: 999; top: 322px; left: 200px; position: absolute; }
+
+.payinfo dt { float: left; width: 10em; padding: 0.5em; }

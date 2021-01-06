@@ -1,0 +1,39 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang announcements}</div>
+
+<script type="text/javascript" src="include/javascript/viewthread.js"></script>
+<script type="text/javascript">zoomstatus = parseInt($zoomstatus);</script>
+
+<!--{if !empty($id) && !empty($announce)}-->
+	<div class="box">
+	<div class="announcements" id="$announce[id]">
+		<div class="announcementinfo ondisplay">
+			<span>$announce[subject]</span>
+			{lang author}: <a href="space.php?username=$announce[authorenc]">$announce[author]</a> &nbsp;
+			{lang starttime}: $announce[starttime] &nbsp;
+			{lang endtime}: <!--{if $announce['endtime']}-->$announce[endtime]<!--{else}-->{lang unlimited}<!--{/if}-->
+		</div>
+		<div class="announcementmessage">
+			$announce[message]
+		</div>
+	</div>
+	</div>
+<!--{/if}-->
+
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+
+<div class="box">
+<!--{loop $announcelist $announce}-->
+	<div class="announcements" id="$announce[id]">
+		<div class="announcementinfo" onclick="location='announcement.php?id=$announce[id]'">
+			<span>$announce[subject]</span>
+			{lang author}: <a href="space.php?username=$announce[authorenc]">$announce[author]</a> &nbsp;
+			{lang starttime}: $announce[starttime] &nbsp;
+			{lang endtime}: <!--{if $announce['endtime']}-->$announce[endtime]<!--{else}-->{lang unlimited}<!--{/if}-->
+		</div>
+	</div>
+<!--{/loop}-->
+</div>
+
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+{subtemplate footer}
